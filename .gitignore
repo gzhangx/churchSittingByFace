@@ -5,6 +5,7 @@
 */bin
 ipch
 WpfFaces.VC.*
+.vs
 
 # Compiled Object files
 *.slo
