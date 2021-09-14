@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="dlibExts">
+      <UniqueIdentifier>{5d761123-c79e-443c-adef-c8311fddf723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlibExts\png">
+      <UniqueIdentifier>{d5781c6f-9baa-438c-8439-36cb5cd02b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlibExts\zlib">
+      <UniqueIdentifier>{4ebc1fcd-5642-4d56-902c-a97f376b840e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,6 +33,60 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\png.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\pngconf.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\pngdebug.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\pnginfo.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\pnglibconf.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\pngpriv.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\libpng\pngstruct.h">
+      <Filter>dlibExts\png</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\crc32.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\deflate.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\gzguts.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\inffast.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\inffixed.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\inflate.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\inftrees.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\trees.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\zconf.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\zlib.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlib\dlib\external\zlib\zutil.h">
+      <Filter>dlibExts\zlib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -31,6 +94,96 @@
     </ClCompile>
     <ClCompile Include="ConsoleTest.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\png.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngerror.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngget.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngmem.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngpread.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngread.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngrio.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngrtran.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngrutil.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngset.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngtrans.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngwio.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngwrite.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngwtran.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\libpng\pngwutil.c">
+      <Filter>dlibExts\png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\adler32.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\compress.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\crc32.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\deflate.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\gzclose.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\gzlib.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\gzread.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\gzwrite.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\infback.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\inffast.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\inflate.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\inftrees.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\trees.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\uncompr.c">
+      <Filter>dlibExts\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlib\dlib\external\zlib\zutil.c">
+      <Filter>dlibExts\zlib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

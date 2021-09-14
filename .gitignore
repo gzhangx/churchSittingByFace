@@ -6,6 +6,9 @@
 ipch
 WpfFaces.VC.*
 .vs
+*/x64/*
+x64
+*.vcxproj.user
 
 # Compiled Object files
 *.slo
