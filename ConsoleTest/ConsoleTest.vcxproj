@@ -86,9 +86,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)DLIB_PNG_SUPPORTDLIB_JPEG_SUPPORT</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;$(SolutionDir)..\dlib\</AdditionalIncludeDirectories>
       <CompileAs>Default</CompileAs>
       <AdditionalOptions>/bigobj</AdditionalOptions>
     </ClCompile>
@@ -102,11 +102,11 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/bigobj</AdditionalOptions>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;$(SolutionDir)..\dlib\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,9 +120,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)DLIB_PNG_SUPPORTDLIB_JPEG_SUPPORT</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;$(SolutionDir)..\dlib\</AdditionalIncludeDirectories>
       <CompileAs>Default</CompileAs>
       <AdditionalOptions>/bigobj</AdditionalOptions>
     </ClCompile>
@@ -140,11 +140,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/bigobj</AdditionalOptions>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;$(SolutionDir)..\dlib\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +157,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\cderror.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\cdjpeg.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jconfig.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jdct.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jerror.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jinclude.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jmemsys.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jmorecfg.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jpegint.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jpeglib.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\jversion.h" />
+    <ClInclude Include="..\..\dlib\dlib\external\libjpeg\transupp.h" />
     <ClInclude Include="..\..\dlib\dlib\external\libpng\png.h" />
     <ClInclude Include="..\..\dlib\dlib\external\libpng\pngconf.h" />
     <ClInclude Include="..\..\dlib\dlib\external\libpng\pngdebug.h" />
@@ -179,6 +191,65 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jaricom.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcapimin.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcapistd.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcarith.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jccoefct.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jccolor.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcdctmgr.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jchuff.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcinit.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcmainct.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcmarker.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcmaster.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcomapi.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcparam.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcprepct.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jcsample.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jctrans.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdapimin.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdapistd.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdarith.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdatadst.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdatasrc.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdcoefct.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdcolor.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jddctmgr.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdhuff.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdinput.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdmainct.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdmarker.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdmaster.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdmerge.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdpostct.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdsample.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jdtrans.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jerror.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jfdctflt.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jfdctfst.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jfdctint.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jidctflt.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jidctfst.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jidctint.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jmemmgr.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jmemname.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jquant1.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jquant2.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jutils.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdbmp.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdcolmap.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdgif.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdppm.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdrle.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdswitch.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\rdtarga.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\transupp.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\wrbmp.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\wrgif.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\wrppm.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\wrrle.c" />
+    <ClCompile Include="..\..\dlib\dlib\external\libjpeg\wrtarga.c" />
     <ClCompile Include="..\..\dlib\dlib\external\libpng\png.c" />
     <ClCompile Include="..\..\dlib\dlib\external\libpng\pngerror.c" />
     <ClCompile Include="..\..\dlib\dlib\external\libpng\pngget.c" />
