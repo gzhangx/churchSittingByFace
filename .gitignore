@@ -3,6 +3,8 @@
 
 */obj
 */bin
+ipch
+WpfFaces.VC.*
 
 # Compiled Object files
 *.slo
