@@ -7,6 +7,7 @@
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <iostream>
+#include<opencv2/opencv.hpp>
 using namespace dlib;
 using namespace std;
 int main()
