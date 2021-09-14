@@ -1,0 +1,2 @@
+d:\temp\WpfFaces\WpfFaces\bin\Debug\WpfFaces.exe.config
+D:\work\acccn\churchSittingByFace\WpfFaces\bin\Debug\WpfFaces.exe.config
