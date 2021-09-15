@@ -4,6 +4,8 @@
 #include "stdafx.h"
 
 #include<dlib/image_processing/frontal_face_detector.h>
+#include <dlib/image_processing/render_face_detections.h>
+#include <dlib/image_processing.h>
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <iostream>
@@ -17,12 +19,16 @@ int main()
     image_window win;
     array2d<unsigned char> img;
 
+    // loading the model from the shape_predictor_68_face_landmarks.dat file you gave
+    shape_predictor sp;
+    deserialize("../shape_predictor_68_face_landmarks.dat") >> sp;
+
     try {
         cv::Mat myImage;//Declaring a matrix to load the frames//
         cv::namedWindow("Video Player");//Declaring the video to show the video//
         cv::VideoCapture cap(0);//Declaring an object to capture stream of frames from default camera//
         if (!cap.isOpened()) { //This section prompt an error message if no video stream is found//
-            cout << "No video stream detected" << endl;
+            std::cout << "No video stream detected" << endl;
             system("pause");
             return-1;
         }
@@ -36,7 +42,7 @@ int main()
             //cv::imwrite("test.png", myImage);
             dlib::array2d<bgr_pixel> img;
             dlib::assign_image(img, dlib::cv_image<bgr_pixel>(myImage));
-            char c = (char)cv::waitKey(5);//Allowing 25 milliseconds frame processing time and initiating break condition//
+            char c = (char)cv::waitKey(1);//Allowing 25 milliseconds frame processing time and initiating break condition//
 
             //load_image(img, "test.png");
             // Make the image bigger by a factor of two.  This is useful since
@@ -54,13 +60,34 @@ int main()
             // around all the faces it can find in the image.
             std::vector<rectangle> dets = detector(img);
 
-            cout << "Number of faces detected: " << dets.size() << endl;
+            std::cout << "Number of faces detected: " << dets.size() << endl;
+
+            std::vector<full_object_detection> shapes;
+            for (unsigned long j = 0; j < dets.size(); ++j)
+            {
+                full_object_detection shape = sp(img, dets[j]);
+                std::cout << "number of parts: " << shape.num_parts() << endl;
+                std::cout << "pixel position of first part:  " << shape.part(0) << endl;
+                std::cout << "pixel position of second part: " << shape.part(1) << endl;
+                // You get the idea, you can get all the face part locations if
+                // you want them.  Here we just store them in shapes so we can
+                // put them on the screen.
+                shapes.push_back(shape);
+            }
+
             // Now we show the image on the screen and the face detections as
             // red overlay boxes.
             win.clear_overlay();
             win.set_image(img);
-            win.add_overlay(dets, rgb_pixel(255, 0, 0));
+            //win.add_overlay(dets, rgb_pixel(255, 0, 0));
+            win.add_overlay(render_face_detections(shapes));
 
+
+            // We can also extract copies of each face that are cropped, rotated upright,
+            // and scaled to a standard size as shown here:
+            //dlib::array<array2d<rgb_pixel> > face_chips;
+            //extract_image_chips(img, get_face_chip_details(shapes), face_chips);
+            //win_faces.set_image(tile_images(face_chips));
             if (c == 27) { //If 'Esc' is entered break the loop//
                 break;
             }
