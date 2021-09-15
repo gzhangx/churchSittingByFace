@@ -10,7 +10,7 @@ namespace veda {
     public:
         vrectangle() {};
         vrectangle(void* p); //a dlib rect
-        vrectangle(vrectangle & rc) {
+        vrectangle(const vrectangle & rc) {
             t = rc.t;
             l = rc.l;
             r = rc.r;
@@ -32,18 +32,28 @@ namespace veda {
 
     class vobject_detection { //full_object_detection
         std::vector<vpoint> _points;
-        vrectangle _rect;
+        vrectangle _rect;        
     public:
+        std::vector<float> descriptors;
         vobject_detection(void *o);
+        vobject_detection(const vobject_detection& me) {
+            _points = me._points;
+            _rect = me._rect;
+        }
         vrectangle & rect() { return _rect; }
         std::vector<vpoint> & points() {
             return _points;
         }
     };
 
+    class FaceResult {
+    public:
+        std::vector<vobject_detection> objs;
+    };
     class VedaInterface {
         void * _processingObj;
     public:
+        FaceResult res;
         VedaInterface(std::string configDir);
         void ProcessImage(unsigned char* data, int len);
     };

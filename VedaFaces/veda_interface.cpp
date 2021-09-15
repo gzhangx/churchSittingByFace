@@ -46,7 +46,7 @@ namespace veda {
         }
     };
 
-    void VedaInterface::ProcessImage(unsigned char* data, int len) {
+    void VedaInterface::ProcessImage(unsigned char* data, int len) {        
         dlib::array2d<dlib::bgr_pixel> img;
         membuf buf = membuf(data, len);
         std::istream in(&buf);
@@ -54,8 +54,16 @@ namespace veda {
         VedaFaces* f = (VedaFaces*)_processingObj;
         f->ProcessImage(img);
         auto shapes = f->getCurShapes();
+        res.objs.clear();
+        int i = 0;
         for (auto s : shapes) {
             vobject_detection det = vobject_detection(&s);
+            auto tdes = f->getFaceDescriptors()[i];
+            for (float * b = tdes.begin(); b != tdes.end(); b++) {
+                det.descriptors.push_back(*b);
+            }            
+            res.objs.push_back(det);
         }
+
     }
 }
