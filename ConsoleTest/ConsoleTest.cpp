@@ -182,7 +182,7 @@ int main()
             // This will correctly indicate that there are 4 people in the image.
             std::cout << "number of people found in the image: " << num_clusters << endl;
 
-
+            
             // Now let's display the face clustering results on the screen.  You will see that it
             // correctly grouped all the faces. 
             std::vector<image_window> win_clusters(num_clusters);
@@ -203,6 +203,11 @@ int main()
 
             // Finally, let's print one of the face descriptors to the screen.  
             cout << "face descriptor for one face: " << trans(face_descriptors[0]) << endl;
+
+            std::cout << "size=" << face_descriptors[0].size() << " ==============";
+            for (float * b = face_descriptors[0].begin(); b != face_descriptors[0].end(); b++) {
+                std::cout << " data=" << *b;
+            }
 
             // It should also be noted that face recognition accuracy can be improved if jittering
             // is used when creating face descriptors.  In particular, to get 99.38% on the LFW
