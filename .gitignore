@@ -9,6 +9,7 @@ WpfFaces.VC.*
 */x64/*
 x64
 *.vcxproj.user
+*/Release/
 
 # Compiled Object files
 *.slo

@@ -95,6 +95,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\opencv.builds\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_imgproc430.lib;opencv_core430.lib;opencv_imgcodecs430.lib;opencv_videoio430.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,6 +113,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\opencv.builds\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_imgproc430.lib;opencv_core430.lib;opencv_imgcodecs430.lib;opencv_videoio430.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,6 +135,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\opencv.builds\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_imgproc430.lib;opencv_core430.lib;opencv_imgcodecs430.lib;opencv_videoio430.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,12 +151,15 @@
       <AdditionalOptions>/bigobj</AdditionalOptions>
       <CompileAs>Default</CompileAs>
       <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;$(SolutionDir)..\dlib\;$(SolutionDir)..\opencv\include;$(SolutionDir)..\opencv.builds;$(SolutionDir)..\opencv\modules\core\include;$(SolutionDir)..\opencv\modules\calib3d\include;$(SolutionDir)..\opencv\modules\features2d\include;$(SolutionDir)..\opencv\modules\dnn\include;$(SolutionDir)..\opencv\modules\flann\include;$(SolutionDir)..\opencv\modules\highgui\include;$(SolutionDir)..\opencv\modules\imgcodecs\include;$(SolutionDir)..\opencv\modules\imgproc\include;$(SolutionDir)..\opencv\modules\ml\include;$(SolutionDir)..\opencv\modules\objdetect\include;$(SolutionDir)..\opencv\modules\photo\include;$(SolutionDir)..\opencv\modules\stitching\include;$(SolutionDir)..\opencv\modules\video\include;$(SolutionDir)..\opencv\modules\videoio\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)x64\Release;$(SolutionDir)..\opencv.builds\x64\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);ippiw.lib;libtiff.lib;IlmImf.lib;opencv_world430.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
