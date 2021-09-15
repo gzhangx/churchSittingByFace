@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IlmImf", "..\opencv.builds\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opencv_world", "..\opencv.builds\modules\world\opencv_world.vcxproj", "{3C83E6F0-462C-3B90-A374-72F695D08AB8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VedaFaces", "VedaFaces\VedaFaces.vcxproj", "{9828E928-1861-4C10-8F71-CCFAF9AB313A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,18 @@ Global
 		{3C83E6F0-462C-3B90-A374-72F695D08AB8}.Release|x64.Build.0 = Release|x64
 		{3C83E6F0-462C-3B90-A374-72F695D08AB8}.Release|x86.ActiveCfg = Release|Win32
 		{3C83E6F0-462C-3B90-A374-72F695D08AB8}.Release|x86.Build.0 = Release|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Debug|ARM.ActiveCfg = Debug|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Debug|x64.ActiveCfg = Debug|x64
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Debug|x64.Build.0 = Debug|x64
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Debug|x86.ActiveCfg = Debug|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Debug|x86.Build.0 = Debug|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Release|ARM.ActiveCfg = Release|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Release|x64.ActiveCfg = Release|x64
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Release|x64.Build.0 = Release|x64
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Release|x86.ActiveCfg = Release|Win32
+		{9828E928-1861-4C10-8F71-CCFAF9AB313A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
