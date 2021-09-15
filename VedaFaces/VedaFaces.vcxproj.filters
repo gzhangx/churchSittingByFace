@@ -126,6 +126,12 @@
     <ClInclude Include="..\..\dlib\dlib\external\libjpeg\transupp.h">
       <Filter>dlibExts\jpeg</Filter>
     </ClInclude>
+    <ClInclude Include="VedaFaces.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="veda_interface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -399,6 +405,9 @@
       <Filter>dlibExts\jpeg</Filter>
     </ClCompile>
     <ClCompile Include="VedaFaces.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="veda_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -127,6 +127,7 @@ int main()
 
             std::cout << "Number of faces detected: " << dets.size() << endl;
 
+            if (dets.size() == 0) continue;
             std::vector<full_object_detection> shapes;
             std::vector<matrix<rgb_pixel>> faces;
             for (unsigned long j = 0; j < dets.size(); ++j)
@@ -207,8 +208,8 @@ int main()
             // is used when creating face descriptors.  In particular, to get 99.38% on the LFW
             // benchmark you need to use the jitter_image() routine to compute the descriptors,
             // like so:
-            matrix<float, 0, 1> face_descriptor = mean(mat(net(jitter_image(faces[0]))));
-            cout << "jittered face descriptor for one face: " << trans(face_descriptor) << endl;
+            //matrix<float, 0, 1> face_descriptor = mean(mat(net(jitter_image(faces[0]))));
+            //cout << "jittered face descriptor for one face: " << trans(face_descriptor) << endl;
             // If you use the model without jittering, as we did when clustering the bald guys, it
             // gets an accuracy of 99.13% on the LFW benchmark.  So jittering makes the whole
             // procedure a little more accurate but makes face descriptor calculation slower.

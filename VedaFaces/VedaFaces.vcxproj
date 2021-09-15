@@ -198,6 +198,8 @@
     <ClInclude Include="..\..\dlib\dlib\external\zlib\zutil.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="VedaFaces.h" />
+    <ClInclude Include="veda_interface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jaricom.c" />
@@ -299,6 +301,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="veda_interface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
