@@ -1,8 +1,13 @@
 # Prerequisites
 *.d
 
-*/obj
-*/bin
+**/Debug
+**/Release
+*.VC.db
+*.VC.opendb
+
+**/obj
+**/bin
 ipch
 WpfFaces.VC.*
 .vs
