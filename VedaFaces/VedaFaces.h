@@ -1,11 +1,12 @@
-#ifndef VEDAG_VedaFaces
-#define VEDAG_VedaFaces
+#ifndef VEDAG_VedaFaces_HEADERFILE
+#define VEDAG_VedaFaces_HEADERFILE
 
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/image_processing/render_face_detections.h>
 #include <iostream>
 #include <dlib/image_processing.h>
 #include <dlib/dnn.h>
+#include "exports.h"
 
 namespace veda {
     // ----------------------------------------------------------------------------------------
@@ -67,8 +68,6 @@ namespace veda {
         std::vector<dlib::matrix<float, 0, 1 >>& getFaceDescriptors() { return face_descriptors; }
         std::vector<unsigned long> GetLabels();
     };
-#define GGLIBRARY_API extern "C" __declspec(dllexport)
-
 
     GGLIBRARY_API VedaFaces* CreateFace(std::string conifgDir);
 }

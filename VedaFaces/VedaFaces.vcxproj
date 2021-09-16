@@ -196,10 +196,14 @@
     <ClInclude Include="..\..\dlib\dlib\external\zlib\zconf.h" />
     <ClInclude Include="..\..\dlib\dlib\external\zlib\zlib.h" />
     <ClInclude Include="..\..\dlib\dlib\external\zlib\zutil.h" />
+    <ClInclude Include="exports.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="utilInternal.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="VedaFaces.h" />
     <ClInclude Include="veda_interface.h" />
+    <ClInclude Include="windebug.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlib\dlib\external\libjpeg\jaricom.c" />
@@ -294,6 +298,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="VedaFaces.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -302,6 +307,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="veda_interface.cpp" />
+    <ClCompile Include="windebug.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

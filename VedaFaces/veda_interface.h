@@ -1,13 +1,14 @@
-#ifndef VEDAG_VedaInterfaces
-#define VEDAG_VedaInterfaces
+#ifndef VEDAG_VedaInterfaces_HEADERFILE
+#define VEDAG_VedaInterfaces_HEADERFILE
 #pragma warning(disable:4503)
 #include <string>
 #include <vector>
+#include "exports.h"
 namespace veda {
 
-    class vrectangle {
-        long t, l, r, b;
+    class GGLIBRARY_CLASS vrectangle {        
     public:
+        long t, l, r, b;
         vrectangle() {};
         vrectangle(void* p); //a dlib rect
         vrectangle(const vrectangle & rc) {
@@ -16,18 +17,12 @@ namespace veda {
             r = rc.r;
             b = rc.b;
         }
-        long top();
-        long left();        
-        long right();
-        long bottom();
     };
 
-    class vpoint{
-        long _x, _y;
+    class GGLIBRARY_CLASS vpoint{        
     public:
-        vpoint(void* p);
-        long x();
-        long y();
+        long x, y;
+        vpoint(void* p);        
     };
 
     class vobject_detection { //full_object_detection
@@ -46,17 +41,34 @@ namespace veda {
         }
     };
 
+
+    class GGLIBRARY_CLASS v2dgbrImg {
+    public:
+        v2dgbrImg(unsigned char* data, int len) {
+            this->data = data;
+            this->len = len;
+        }
+        ~v2dgbrImg() {
+            if (data) delete data;
+        }
+        unsigned char* data;
+        int len;
+    };
     class FaceResult {
     public:
         std::vector<vobject_detection> objs;
     };
-    class VedaInterface {
+    class GGLIBRARY_CLASS VedaInterface {
         void * _processingObj;
     public:
         FaceResult res;
         VedaInterface(std::string configDir);
-        void ProcessImage(unsigned char* data, int len);
+        ~VedaInterface();
+        void ProcessImage(v2dgbrImg & img);
     };
+
+    GGLIBRARY_API VedaInterface* createVedaInterface(std::string configDir);
+    GGLIBRARY_API void deleteVedaInterface(VedaInterface* inf);
 }
 
 

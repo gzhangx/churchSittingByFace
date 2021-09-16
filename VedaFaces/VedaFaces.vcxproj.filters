@@ -132,6 +132,18 @@
     <ClInclude Include="veda_interface.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="windebug.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utilInternal.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exports.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -408,6 +420,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="veda_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

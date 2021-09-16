@@ -2,6 +2,8 @@
 #include <dlib/image_processing.h>
 #include "VedaFaces.h"
 #include <streambuf>
+#include "utils.h"
+#include "utilInternal.h"
 
 using namespace dlib;
 
@@ -10,20 +12,17 @@ namespace veda {
     vrectangle::vrectangle(void* p) {
         rectangle* rp = (rectangle*)p;
         t = rp->top();
-    }
-    long vrectangle::top() { return t; }
-    long vrectangle::left() { return l; }
-    long vrectangle::right() { return r; }
-    long vrectangle::bottom() { return b; }
+        r = rp->right();
+        b = rp->bottom();
+        l = rp->left();
+    }    
 
 
     vpoint::vpoint(void* p) {
         point * pp = (point*)p;
-        _x = pp->x();
-        _y = pp->y();
-    }
-    long vpoint::x() { return _x; }
-    long vpoint::y() { return _y; }
+        x = pp->x();
+        y = pp->y();
+    }    
 
 
     
@@ -37,20 +36,14 @@ namespace veda {
         _processingObj = new VedaFaces(configDir);
     };
 
+    VedaInterface::~VedaInterface() {
+        delete (VedaFaces*)_processingObj;
+    }
 
-    //Thank you from https://tuttlem.github.io/2014/08/18/getting-istream-to-work-off-a-byte-array.html
-    class membuf : public std::basic_streambuf<char> {
-    public:
-        membuf(const unsigned char *p, int l) {
-            setg((char*)p, (char*)p, (char*)p + l);
-        }
-    };
 
-    void VedaInterface::ProcessImage(unsigned char* data, int len) {        
+    void VedaInterface::ProcessImage(v2dgbrImg & img2d) {
         dlib::array2d<dlib::bgr_pixel> img;
-        membuf buf = membuf(data, len);
-        std::istream in(&buf);
-        dlib::deserialize(img, in);
+        v2dGbrImgToArray2DBgr(img2d, img);        
         VedaFaces* f = (VedaFaces*)_processingObj;
         f->ProcessImage(img);
         auto shapes = f->getCurShapes();
@@ -65,5 +58,19 @@ namespace veda {
             res.objs.push_back(det);
         }
 
+    }
+
+    void v2dGbrImgToArray2DBgr(v2dgbrImg & img2d, dlib::array2d<dlib::bgr_pixel> & img) {
+        membuf buf = membuf(img2d.data, img2d.len);
+        std::istream in(&buf);
+        dlib::deserialize(img, in);
+    }
+
+
+    GGLIBRARY_API VedaInterface* createVedaInterface(std::string configDir) {
+        return new VedaInterface(configDir);
+    }
+    GGLIBRARY_API void deleteVedaInterface(VedaInterface* inf) {
+        delete inf;
     }
 }
