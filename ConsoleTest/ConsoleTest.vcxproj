@@ -159,7 +159,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\Release;$(SolutionDir)..\opencv.builds\x64\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);libtiff.lib;IlmImf.lib;opencv_world430.lib;</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libwebp.lib;libjasper.lib;libtiff.lib;IlmImf.lib;opencv_world430.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 //#include <dlib/image_processing.h>
 #include <dlib/image_processing/render_face_detections.h>
 #include "utilInternal.h"
-
+#include<opencv2/opencv.hpp>
 
 using namespace dlib;
 namespace veda {
@@ -55,5 +55,10 @@ namespace veda {
         
         image_window* win = (image_window*)_win;
         win->set_image(tile_images(face_chips));        
+    }
+
+    char WinDebug::waitKey(int ms) {
+        char c = (char)cv::waitKey(ms);
+        return c;
     }
 }
