@@ -226,6 +226,8 @@ int main()
             //dlib::array<array2d<rgb_pixel> > face_chips;
             //extract_image_chips(img, get_face_chip_details(shapes), face_chips);
             //win_faces.set_image(tile_images(face_chips));
+
+            c = (char)cv::waitKey(10000);
             if (c == 27) { //If 'Esc' is entered break the loop//
                 break;
             }
