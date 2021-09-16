@@ -24,6 +24,9 @@ namespace veda {
         y = pp->y();
     }    
 
+    V2dByteImg::V2dByteImg() {
+        _img = new array2d<unsigned char>();
+    }
     void V2dByteImg::loadImage(const std::string fileName) {
         array2d<unsigned char> * img = (array2d<unsigned char> *)_img;
         dlib::load_image(*img, fileName);

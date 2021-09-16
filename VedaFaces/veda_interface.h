@@ -45,8 +45,7 @@ namespace veda {
     class GGLIBRARY_CLASS V2dByteImg {
         void * _img;
     public:
-        V2dByteImg() {
-        }
+        V2dByteImg();
         ~V2dByteImg() {
             if (_img) delete _img;
         }
