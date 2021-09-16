@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <tchar.h>
 
+#include <string>
+std::string getExeDir();
+
 
 
 // TODO: reference additional headers your program requires here

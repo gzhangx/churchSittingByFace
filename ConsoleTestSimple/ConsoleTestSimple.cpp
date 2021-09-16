@@ -9,9 +9,11 @@ using namespace veda;
 int main()
 {
 
+    std::string configDir = getExeDir();
+    printf("%s\n", configDir.c_str());
     WinDebug win;    
     WinDebug winFaces;
-    VedaInterface* inf = new VedaInterface("d:\\work\\acccn\\");
+    VedaInterface* inf = new VedaInterface(configDir);
     //inf->ProcessImage();
     V2dByteImg img;
     printf("here\n");
@@ -25,6 +27,8 @@ int main()
 
     winFaces.showFaceChips(inf, img);
     printf("overlay added\n");
+
+    win.waitKey(20000);
     printf("loaded done\n");
     inf->ProcessImage(img);
     printf("loaded done\n");
