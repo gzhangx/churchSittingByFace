@@ -96,7 +96,7 @@ void veda::VedaFaces::ProcessImage(dlib::array2d<unsigned char>& img) {
     // around all the faces it can find in the image.
     std::vector<rectangle> dets = detector(img);
 
-    std::cout << "Number of faces detected: " << dets.size() << endl;
+    //std::cout << "Number of faces detected: " << dets.size() << endl;
 
     shapes.clear();
     faces.clear();

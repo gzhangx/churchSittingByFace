@@ -44,7 +44,7 @@ namespace veda {
             return _points;
         }
     };
-
+    
 
     class GGLIBRARY_CLASS V2dByteImg {
         void * _img;
@@ -56,6 +56,16 @@ namespace veda {
         void * getImg() { return _img; }
         void loadImage(std::string fileName);
     };
+
+    class cvMat {
+        void * mat;
+    public:
+        cvMat();
+        ~cvMat();
+        void *getMat();
+        void toV2dByteImg(V2dByteImg & img);
+    };
+
     class FaceResult {
     public:
         std::vector<vobject_detection> objs;

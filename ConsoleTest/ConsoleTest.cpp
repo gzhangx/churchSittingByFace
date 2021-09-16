@@ -84,10 +84,10 @@ int main()
     try {
     // loading the model from the shape_predictor_68_face_landmarks.dat file you gave
     shape_predictor sp;
-    deserialize("../shape_predictor_68_face_landmarks.dat") >> sp;
+    deserialize("shape_predictor_68_face_landmarks.dat") >> sp;
 
     anet_type net;
-    deserialize("../dlib_face_recognition_resnet_model_v1.dat") >> net;
+    deserialize("dlib_face_recognition_resnet_model_v1.dat") >> net;
     
         cv::Mat myImage;//Declaring a matrix to load the frames//
         cv::namedWindow("Video Player");//Declaring the video to show the video//

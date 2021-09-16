@@ -298,6 +298,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
+    <ClCompile Include="cv.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VedaFaces.cpp" />
     <ClCompile Include="stdafx.cpp">

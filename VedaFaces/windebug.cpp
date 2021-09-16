@@ -9,24 +9,35 @@
 
 using namespace dlib;
 namespace veda {
-    WinDebug::WinDebug() {
-        _win = new image_window();
+    WinDebug::WinDebug() {        
     }
     WinDebug::~WinDebug() {
-        delete _win;
+        if (_win != NULL) {
+            delete (image_window*)_win;
+        }
+        stopVideoCapture();
+    }
+
+    void WinDebug::startWin() {
+        if (_win == NULL) {
+            _win = new image_window();
+        }
     }
 
     void WinDebug::clear_overlay() {
+        if (!_win) return;
         image_window* win = (image_window*)_win;
         win->clear_overlay();
     }
     void WinDebug::set_image(V2dByteImg & img2d) {
+        if (!_win) return;
         image_window* win = (image_window*)_win;
         dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();        
         win->set_image(*img);
     }
 
     void WinDebug::add_overlayShapes(std::vector<vobject_detection> & vshapes) {
+        if (!_win) return;
         image_window* win = (image_window*)_win;
         std::vector<full_object_detection> shapes;
         for (auto vs : vshapes) {
@@ -43,6 +54,7 @@ namespace veda {
     }
 
     void WinDebug::showFaceChips(VedaInterface* intf, V2dByteImg & img2d) {
+        if (!_win) return;
         VedaFaces* vf = (VedaFaces*)intf->getProcessingObj();
         
         auto shapes = vf->getCurShapes();
@@ -60,5 +72,25 @@ namespace veda {
     char WinDebug::waitKey(int ms) {
         char c = (char)cv::waitKey(ms);
         return c;
+    }
+
+    int WinDebug::startVideoCapture(int id) {
+        if (_videoCap != NULL) return 1;
+        auto vid = new cv::VideoCapture(id);
+        _videoCap = vid;
+        return vid->isOpened();
+    }
+    void WinDebug::stopVideoCapture() {
+        if (_videoCap != NULL) {
+            auto cap = (cv::VideoCapture*)_videoCap;
+            delete cap;
+            _videoCap = NULL;
+        }
+    }
+
+    void WinDebug::doVideoCapture(cvMat &mat) {
+        if (_videoCap == NULL) return;
+        cv::VideoCapture * cap = (cv::VideoCapture*)_videoCap;
+        *cap >> *((cv::Mat*)mat.getMat());
     }
 }
