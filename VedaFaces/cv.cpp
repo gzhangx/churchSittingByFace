@@ -21,7 +21,7 @@ namespace veda {
     }
 
     void cvMat::toV2dByteImg(V2dByteImg & img) {
-        dlib::array2d<unsigned char> *a2d = (dlib::array2d<unsigned char> *)img.getImg();
+        VArray2dBgr *a2d = (VArray2dBgr *)img.getImg();
         dlib::assign_image(*a2d, dlib::cv_image<unsigned char>(*(cv::Mat*)mat));
     }
 }

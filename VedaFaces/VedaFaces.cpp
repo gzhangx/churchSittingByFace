@@ -79,7 +79,7 @@ veda::VedaFaces::VedaFaces(std::string configDir) {
     deserialize(configDir + "/dlib_face_recognition_resnet_model_v1.dat") >> net;
 }
 
-void veda::VedaFaces::ProcessImage(dlib::array2d<unsigned char>& img) {
+void veda::VedaFaces::ProcessImage(VArray2dBgr& img) {
     //load_image(img, "test.png");
     // Make the image bigger by a factor of two.  This is useful since
     // the face detector looks for faces that are about 80 by 80 pixels

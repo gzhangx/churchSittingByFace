@@ -11,8 +11,10 @@ int main()
 
     std::string configDir = getExeDir();
     printf("%s\n", configDir.c_str());
-    WinDebug win;    
+    WinDebug win;
+    win.startWin();
     WinDebug winFaces;
+    winFaces.startWin();
     VedaInterface* inf = new VedaInterface(configDir);
     //inf->ProcessImage();
     V2dByteImg img;

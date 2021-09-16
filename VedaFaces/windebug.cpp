@@ -32,7 +32,7 @@ namespace veda {
     void WinDebug::set_image(V2dByteImg & img2d) {
         if (!_win) return;
         image_window* win = (image_window*)_win;
-        dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();        
+        VArray2dBgr * img = (VArray2dBgr *)img2d.getImg();        
         win->set_image(*img);
     }
 
@@ -61,7 +61,7 @@ namespace veda {
         
         dlib::array<array2d<rgb_pixel> > face_chips;
        
-        dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();
+        VArray2dBgr * img = (VArray2dBgr *)img2d.getImg();
         
         extract_image_chips(*img, get_face_chip_details(shapes), face_chips);
         

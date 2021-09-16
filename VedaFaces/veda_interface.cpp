@@ -25,10 +25,10 @@ namespace veda {
     }    
 
     V2dByteImg::V2dByteImg() {
-        _img = new array2d<unsigned char>();
+        _img = new VArray2dBgr();
     }
     void V2dByteImg::loadImage(const std::string fileName) {
-        array2d<unsigned char> * img = (array2d<unsigned char> *)_img;
+        VArray2dBgr * img = (VArray2dBgr*)_img;
         dlib::load_image(*img, fileName);
     }
 
@@ -56,7 +56,7 @@ namespace veda {
 
 
     void VedaInterface::ProcessImage(V2dByteImg & img2d) {
-        dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();
+        VArray2dBgr * img = (VArray2dBgr *)img2d.getImg();
         VedaFaces* f = (VedaFaces*)_processingObj;
         f->ProcessImage(*img);
         auto shapes = f->getCurShapes();

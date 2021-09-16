@@ -9,6 +9,7 @@
 #include "exports.h"
 
 namespace veda {
+    typedef dlib::array2d<dlib::bgr_pixel>  VArray2dBgr;
     // ----------------------------------------------------------------------------------------
 
     // The next bit of code defines a ResNet network.  It's basically copied
@@ -62,7 +63,7 @@ namespace veda {
     public:
         VedaFaces(std::string configdir);
         
-        void ProcessImage(dlib::array2d<unsigned char>& img);
+        void ProcessImage(VArray2dBgr& img);
         std::vector<dlib::full_object_detection>& getCurShapes() { return shapes; }
         std::vector<dlib::matrix<dlib::rgb_pixel>>& getCurFaces() { return faces; }
         std::vector<dlib::matrix<float, 0, 1 >>& getFaceDescriptors() { return face_descriptors; }
