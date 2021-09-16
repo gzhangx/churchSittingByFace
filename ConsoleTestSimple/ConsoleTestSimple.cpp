@@ -20,10 +20,10 @@ int main()
     V2dByteImg img;
     printf("here\n");
     img.loadImage("test.png");
-    win.set_image(img);
+    
     printf("loaded\n");
     inf->ProcessImage(img);
-
+    win.set_image(img);
     win.clear_overlay();
     win.add_overlayShapes(inf->res.objs);
 
