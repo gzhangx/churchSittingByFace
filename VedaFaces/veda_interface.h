@@ -22,7 +22,11 @@ namespace veda {
     class GGLIBRARY_CLASS vpoint{        
     public:
         long x, y;
-        vpoint(void* p);        
+        vpoint(long x, long y) {
+            this->x = x;
+            this->y = y;
+        }
+        vpoint(void* p);
     };
 
     class vobject_detection { //full_object_detection

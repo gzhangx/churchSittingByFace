@@ -38,6 +38,12 @@ namespace veda {
         full_object_detection* fo = (full_object_detection*)o;
         rectangle r = fo->get_rect();
         _rect = vrectangle(&r);
+
+        for (unsigned int i = 0; i < fo->num_parts(); i++) {
+            auto pt = fo->part(i);
+            vpoint vp = vpoint(pt.x(), pt.y());
+            _points.push_back(vp);
+        }
     }
 
     VedaInterface::VedaInterface(std::string configDir){        
