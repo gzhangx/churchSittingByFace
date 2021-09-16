@@ -10,6 +10,7 @@ int main()
 {
 
     WinDebug win;    
+    WinDebug winFaces;
     VedaInterface* inf = new VedaInterface("d:\\work\\acccn\\");
     //inf->ProcessImage();
     V2dByteImg img;
@@ -21,6 +22,8 @@ int main()
 
     win.clear_overlay();
     win.add_overlayShapes(inf->res.objs);
+
+    winFaces.showFaceChips(inf, img);
     printf("overlay added\n");
     printf("loaded done\n");
     inf->ProcessImage(img);
