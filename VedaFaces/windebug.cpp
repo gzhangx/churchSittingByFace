@@ -52,9 +52,8 @@ namespace veda {
         dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();
         
         extract_image_chips(*img, get_face_chip_details(shapes), face_chips);
-        /*
+        
         image_window* win = (image_window*)_win;
-        win->set_image(tile_images(face_chips));
-        */
+        win->set_image(tile_images(face_chips));        
     }
 }
