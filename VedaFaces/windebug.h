@@ -10,7 +10,7 @@ namespace veda {
         WinDebug();
         ~WinDebug();
         void clear_overlay();
-        void set_image(v2dgbrImg & img);
+        void set_image(V2dByteImg & img);
         void add_overlayShapes(std::vector<vobject_detection> & vshapes);
     };
 }

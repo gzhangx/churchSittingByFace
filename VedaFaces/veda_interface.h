@@ -42,17 +42,16 @@ namespace veda {
     };
 
 
-    class GGLIBRARY_CLASS v2dgbrImg {
+    class GGLIBRARY_CLASS V2dByteImg {
+        void * _img;
     public:
-        v2dgbrImg(unsigned char* data, int len) {
-            this->data = data;
-            this->len = len;
+        V2dByteImg() {
         }
-        ~v2dgbrImg() {
-            if (data) delete data;
+        ~V2dByteImg() {
+            if (_img) delete _img;
         }
-        unsigned char* data;
-        int len;
+        void * getImg() { return _img; }
+        void loadImage(std::string fileName);
     };
     class FaceResult {
     public:
@@ -64,7 +63,7 @@ namespace veda {
         FaceResult res;
         VedaInterface(std::string configDir);
         ~VedaInterface();
-        void ProcessImage(v2dgbrImg & img);
+        void ProcessImage(V2dByteImg & img);
     };
 
     GGLIBRARY_API VedaInterface* createVedaInterface(std::string configDir);

@@ -16,11 +16,10 @@ namespace veda {
         image_window* win = (image_window*)_win;
         win->clear_overlay();
     }
-    void WinDebug::set_image(v2dgbrImg & img2d) {
+    void WinDebug::set_image(V2dByteImg & img2d) {
         image_window* win = (image_window*)_win;
-        dlib::array2d<dlib::bgr_pixel> img;
-        v2dGbrImgToArray2DBgr(img2d, img);                
-        win->set_image(img);
+        dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();        
+        win->set_image(*img);
     }
 
     void WinDebug::add_overlayShapes(std::vector<vobject_detection> & vshapes) {

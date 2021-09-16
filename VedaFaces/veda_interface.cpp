@@ -4,7 +4,7 @@
 #include <streambuf>
 #include "utils.h"
 #include "utilInternal.h"
-
+#include <dlib/image_io.h>
 using namespace dlib;
 
 namespace veda {
@@ -24,6 +24,11 @@ namespace veda {
         y = pp->y();
     }    
 
+    void V2dByteImg::loadImage(const std::string fileName) {
+        array2d<unsigned char> * img = (array2d<unsigned char> *)_img;
+        dlib::load_image(*img, fileName);
+    }
+
 
     
     vobject_detection::vobject_detection(void *o) {
@@ -41,11 +46,10 @@ namespace veda {
     }
 
 
-    void VedaInterface::ProcessImage(v2dgbrImg & img2d) {
-        dlib::array2d<dlib::bgr_pixel> img;
-        v2dGbrImgToArray2DBgr(img2d, img);        
+    void VedaInterface::ProcessImage(V2dByteImg & img2d) {
+        dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();
         VedaFaces* f = (VedaFaces*)_processingObj;
-        f->ProcessImage(img);
+        f->ProcessImage(*img);
         auto shapes = f->getCurShapes();
         res.objs.clear();
         int i = 0;
@@ -60,11 +64,11 @@ namespace veda {
 
     }
 
-    void v2dGbrImgToArray2DBgr(v2dgbrImg & img2d, dlib::array2d<dlib::bgr_pixel> & img) {
-        membuf buf = membuf(img2d.data, img2d.len);
-        std::istream in(&buf);
-        dlib::deserialize(img, in);
-    }
+    //void v2dGbrImgToArray2DBgr(v2dgbrImg & img2d, dlib::array2d<dlib::bgr_pixel> & img) {
+    //    membuf buf = membuf(img2d.data, img2d.len);
+    //    std::istream in(&buf);
+    //    dlib::deserialize(img, in);
+    //}
 
 
     GGLIBRARY_API VedaInterface* createVedaInterface(std::string configDir) {
