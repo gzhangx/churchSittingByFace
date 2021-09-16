@@ -66,6 +66,7 @@ namespace veda {
         FaceResult res;
         VedaInterface(std::string configDir);
         ~VedaInterface();
+        void * getProcessingObj() { return _processingObj; }
         void ProcessImage(V2dByteImg & img);
     };
 

@@ -1,8 +1,12 @@
+#include "stdafx.h"
+#include "VedaFaces.h"
 #include "windebug.h"
 #include <dlib/gui_widgets.h>
 //#include <dlib/image_processing.h>
 #include <dlib/image_processing/render_face_detections.h>
 #include "utilInternal.h"
+
+
 using namespace dlib;
 namespace veda {
     WinDebug::WinDebug() {
@@ -36,5 +40,21 @@ namespace veda {
             ));
         }
         win->add_overlay(render_face_detections(shapes));
+    }
+
+    void WinDebug::showFaceChips(VedaInterface* intf, V2dByteImg & img2d) {
+        VedaFaces* vf = (VedaFaces*)intf->getProcessingObj();
+        
+        auto shapes = vf->getCurShapes();
+        
+        dlib::array<array2d<rgb_pixel> > face_chips;
+       
+        dlib::array2d<unsigned char> * img = (dlib::array2d<unsigned char> *)img2d.getImg();
+        
+        extract_image_chips(*img, get_face_chip_details(shapes), face_chips);
+        /*
+        image_window* win = (image_window*)_win;
+        win->set_image(tile_images(face_chips));
+        */
     }
 }

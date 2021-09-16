@@ -12,6 +12,7 @@ namespace veda {
         void clear_overlay();
         void set_image(V2dByteImg & img);
         void add_overlayShapes(std::vector<vobject_detection> & vshapes);
+        void showFaceChips(VedaInterface* intf, V2dByteImg & img2d);
     };
 }
 #endif
