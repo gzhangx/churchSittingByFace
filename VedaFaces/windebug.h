@@ -5,9 +5,9 @@
 #include "exports.h"
 namespace veda {
     class GGLIBRARY_CLASS WinDebug {
-        void * _win;
+        void * _win = NULL;
 
-        void * _videoCap;
+        void * _videoCap = NULL;
     public:
         WinDebug();
         ~WinDebug();

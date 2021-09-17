@@ -11,7 +11,7 @@
 
 using namespace dlib;
 namespace veda {
-    WinDebug::WinDebug() {        
+    WinDebug::WinDebug() { 
     }
     WinDebug::~WinDebug() {
         if (_win != NULL) {
