@@ -73,7 +73,7 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -115,7 +115,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);libwebpd.lib;libjasperd.lib;libtiffd.lib;IlmImfd.lib;opencv_world430d.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libwebpd.lib;libjasperd.lib;libtiffd.lib;IlmImfd.lib</AdditionalDependencies>
       <LargeAddressAware>Yes</LargeAddressAware>
     </Link>
   </ItemDefinitionGroup>

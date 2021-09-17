@@ -16,10 +16,12 @@ namespace veda {
         void set_image(V2dByteImg & img);
         void add_overlayShapes(std::vector<vobject_detection> & vshapes);
         void showFaceChips(VedaInterface* intf, V2dByteImg & img2d);
+#ifdef VEDA_USE_OPENCV
         char waitKey(int ms);
         int startVideoCapture(int id = 0);
         void stopVideoCapture();
         void doVideoCapture(cvMat &mat);
+#endif
     };
 }
 #endif

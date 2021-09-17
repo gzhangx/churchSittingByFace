@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "veda_interface.h"
 #include "windebug.h"
+#include <Windows.h>
 //#include "stdio.h"
 using namespace veda;
 
@@ -64,9 +65,7 @@ int main()
     printf("overlay added\n");
 
     while (true) {
-        int c  = win.waitKey(200);
-        if (c!= -1)printf("%i", c);
-        if (c == 27)break;
+        Sleep(1000);
     }
     
     return 0;

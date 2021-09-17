@@ -1,3 +1,5 @@
+#ifdef VEDA_USE_OPENCV
+
 #include "stdafx.h"
 #include "VedaFaces.h"
 #include "windebug.h"
@@ -25,3 +27,5 @@ namespace veda {
         dlib::assign_image(*a2d, dlib::cv_image<unsigned char>(*(cv::Mat*)mat));
     }
 }
+
+#endif

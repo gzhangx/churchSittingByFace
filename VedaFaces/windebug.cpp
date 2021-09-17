@@ -5,7 +5,9 @@
 //#include <dlib/image_processing.h>
 #include <dlib/image_processing/render_face_detections.h>
 #include "utilInternal.h"
+#ifdef VEDA_USE_OPENCV
 #include<opencv2/opencv.hpp>
+#endif
 
 using namespace dlib;
 namespace veda {
@@ -15,7 +17,9 @@ namespace veda {
         if (_win != NULL) {
             delete (image_window*)_win;
         }
+#ifdef VEDA_USE_OPENCV
         stopVideoCapture();
+#endif
     }
 
     void WinDebug::startWin() {
@@ -69,6 +73,7 @@ namespace veda {
         win->set_image(tile_images(face_chips));        
     }
 
+#ifdef VEDA_USE_OPENCV
     char WinDebug::waitKey(int ms) {
         char c = (char)cv::waitKey(ms);
         return c;
@@ -93,4 +98,5 @@ namespace veda {
         cv::VideoCapture * cap = (cv::VideoCapture*)_videoCap;
         *cap >> *((cv::Mat*)mat.getMat());
     }
+#endif
 }
