@@ -5,6 +5,7 @@
 **/Release
 *.VC.db
 *.VC.opendb
+**.csproj.user
 
 **/obj
 **/bin
