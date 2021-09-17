@@ -65,7 +65,7 @@ int main()
     printf("overlay added\n");
 
     while (true) {
-        Sleep(1000);
+        Sleep(20000);
     }
     
     return 0;
