@@ -6,6 +6,16 @@
 #include "windebug.h"
 //#include "stdio.h"
 using namespace veda;
+
+
+void printDesriptors(FaceResult & res) {
+    for (auto vs : res.objs) {        
+        for (float f : vs.descriptors) 
+            printf("%f ", f);
+        printf("\n");
+    }
+}
+
 int main()
 {
 
@@ -26,6 +36,8 @@ int main()
     win.set_image(img);
     win.clear_overlay();
     win.add_overlayShapes(inf->res.objs);
+
+    printDesriptors(inf->res);
 
     winFaces.showFaceChips(inf, img);
     printf("overlay added\n");

@@ -38,6 +38,7 @@ namespace veda {
         vobject_detection(const vobject_detection& me) {
             _points = me._points;
             _rect = me._rect;
+            descriptors = me.descriptors;
         }
         vrectangle & rect() { return _rect; }
         std::vector<vpoint> & points() {
