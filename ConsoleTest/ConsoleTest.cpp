@@ -90,26 +90,26 @@ int main()
     deserialize("dlib_face_recognition_resnet_model_v1.dat") >> net;
     
         cv::Mat myImage;//Declaring a matrix to load the frames//
-        cv::namedWindow("Video Player");//Declaring the video to show the video//
+        //cv::namedWindow("Video Player");//Declaring the video to show the video//
         cv::VideoCapture cap(0);//Declaring an object to capture stream of frames from default camera//
-        if (!cap.isOpened()) { //This section prompt an error message if no video stream is found//
-            std::cout << "No video stream detected" << endl;
-            system("pause");
-            return-1;
-        }
+        //if (!cap.isOpened()) { //This section prompt an error message if no video stream is found//
+        //    std::cout << "No video stream detected" << endl;
+        //    system("pause");
+        //    return-1;
+        //}
         while (true) { //Taking an everlasting loop to show the video//
-            cap >> myImage;
-            if (myImage.empty()) { //Breaking the loop if no video frame is detected//
-                break;
-            }
-            imshow("Video Player", myImage);//Showing the video//
+            //cap >> myImage;
+            //if (myImage.empty()) { //Breaking the loop if no video frame is detected//
+            //    break;
+            //}
+            //imshow("Video Player", myImage);//Showing the video//
             
             //cv::imwrite("test.png", myImage);
             dlib::array2d<bgr_pixel> img;
-            dlib::assign_image(img, dlib::cv_image<bgr_pixel>(myImage));
+            //dlib::assign_image(img, dlib::cv_image<bgr_pixel>(myImage));
             char c = (char)cv::waitKey(1);//Allowing 25 milliseconds frame processing time and initiating break condition//
 
-            //load_image(img, "test.png");
+            load_image(img, "test.png");
             // Make the image bigger by a factor of two.  This is useful since
             // the face detector looks for faces that are about 80 by 80 pixels
             // or larger.  Therefore, if you want to find faces that are smaller
