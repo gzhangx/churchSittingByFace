@@ -109,12 +109,13 @@
       <AdditionalOptions>/bigobj</AdditionalOptions>
       <CompileAs>Default</CompileAs>
       <AdditionalIncludeDirectories>$(SolutionDir)..\dlib\dlib\external\libpng;$(SolutionDir)..\dlib\dlib\external\zlib;$(SolutionDir)..\dlib\dlib\external\libjpeg;$(SolutionDir)..\dlib\;$(SolutionDir)..\opencv\include;$(SolutionDir)..\opencv.builds;$(SolutionDir)..\opencv\modules\core\include;$(SolutionDir)..\opencv\modules\calib3d\include;$(SolutionDir)..\opencv\modules\features2d\include;$(SolutionDir)..\opencv\modules\dnn\include;$(SolutionDir)..\opencv\modules\flann\include;$(SolutionDir)..\opencv\modules\highgui\include;$(SolutionDir)..\opencv\modules\imgcodecs\include;$(SolutionDir)..\opencv\modules\imgproc\include;$(SolutionDir)..\opencv\modules\ml\include;$(SolutionDir)..\opencv\modules\objdetect\include;$(SolutionDir)..\opencv\modules\photo\include;$(SolutionDir)..\opencv\modules\stitching\include;$(SolutionDir)..\opencv\modules\video\include;$(SolutionDir)..\opencv\modules\videoio\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\opencv.builds\lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_imgproc430.lib;opencv_core430.lib;opencv_imgcodecs430.lib;opencv_videoio430.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);libwebpd.lib;libjasperd.lib;libtiffd.lib;IlmImfd.lib;opencv_world430d.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
