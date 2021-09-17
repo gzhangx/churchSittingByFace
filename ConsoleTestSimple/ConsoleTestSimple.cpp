@@ -63,10 +63,12 @@ int main()
     winFaces.showFaceChips(inf, img);
     printf("overlay added\n");
 
-    win.waitKey(20000);
-    printf("loaded done\n");
-    inf->ProcessImage(img);
-    printf("loaded done\n");
+    while (true) {
+        int c  = win.waitKey(200);
+        if (c!= -1)printf("%i", c);
+        if (c == 27)break;
+    }
+    
     return 0;
 }
 
