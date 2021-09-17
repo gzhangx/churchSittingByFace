@@ -38,9 +38,17 @@ void printDiffs(std::vector<vobject_detection> objs) {
     }
 }
 
+void crash() {
+    WinDebug win;
+    win.startWin();
+    V2dByteImg img;
+    printf("here\n");
+    img.loadImage("test.png");    
+    win.set_image(img);
+}
 int main()
 {
-
+    crash();
     std::string configDir = getExeDir();
     printf("%s\n", configDir.c_str());
     WinDebug win;
