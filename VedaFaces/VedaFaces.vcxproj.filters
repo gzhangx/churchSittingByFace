@@ -431,5 +431,8 @@
     <ClCompile Include="cv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dotnet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

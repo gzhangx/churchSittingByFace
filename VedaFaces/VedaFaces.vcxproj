@@ -104,7 +104,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DLIB_PNG_SUPPORT;DLIB_JPEG_SUPPORT;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/bigobj</AdditionalOptions>
       <CompileAs>Default</CompileAs>
@@ -114,7 +114,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\opencv.builds\lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_imgproc430.lib;opencv_core430.lib;opencv_imgcodecs430.lib;opencv_videoio430.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libwebpd.lib;libjasperd.lib;libtiffd.lib;IlmImfd.lib;opencv_world430d.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -299,6 +299,7 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
     <ClCompile Include="cv.cpp" />
+    <ClCompile Include="dotnet.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VedaFaces.cpp" />
     <ClCompile Include="stdafx.cpp">
