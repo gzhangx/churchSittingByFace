@@ -16,6 +16,27 @@ void printDesriptors(FaceResult & res) {
     }
 }
 
+double diffDescriptor(vobject_detection & od1, vobject_detection & od2) {
+    double cum = 0;
+    for (int i = 0; i < od1.descriptors.size(); i++) {
+        double diff1 = od1.descriptors[i] - od2.descriptors[i];
+        cum += diff1*diff1;
+    }
+    return sqrt(cum);
+}
+
+void printDiffs(std::vector<vobject_detection> objs) {
+    for (int i = 0; i < objs.size(); i++) {
+        printf("for %i: ", i);
+        for (int j = i + 1; j < objs.size(); j++) {
+            if (i != j) {
+                printf(" ->%i %f ", j, diffDescriptor(objs[i], objs[j]));
+            }
+        }
+        printf("\n");
+    }
+}
+
 int main()
 {
 
@@ -35,10 +56,10 @@ int main()
     inf->ProcessImage(img);
     win.set_image(img);
     win.clear_overlay();
-    win.add_overlayShapes(inf->res.objs);
+    win.add_overlayShapes(inf->res.objs);    
 
     printDesriptors(inf->res);
-
+    printDiffs(inf->res.objs);
     winFaces.showFaceChips(inf, img);
     printf("overlay added\n");
 

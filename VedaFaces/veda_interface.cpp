@@ -69,6 +69,7 @@ namespace veda {
                 det.descriptors.push_back(*b);
             }            
             res.objs.push_back(det);
+            i++;
         }
 
     }
