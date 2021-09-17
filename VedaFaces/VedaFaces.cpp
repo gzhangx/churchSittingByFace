@@ -73,9 +73,7 @@ GGLIBRARY_API veda::VedaFaces* veda::CreateFace(std::string conifgDir) {
 veda::VedaFaces::VedaFaces(std::string configDir) {
     detector = get_frontal_face_detector();
 
-    deserialize(configDir + "/shape_predictor_68_face_landmarks.dat") >> sp;
-
-    anet_type net;
+    deserialize(configDir + "/shape_predictor_68_face_landmarks.dat") >> sp;    
     deserialize(configDir + "/dlib_face_recognition_resnet_model_v1.dat") >> net;
 }
 
