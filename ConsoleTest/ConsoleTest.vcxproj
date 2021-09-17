@@ -115,7 +115,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\x64\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);libwebpd.lib;libjasperd.lib;libtiffd.lib;IlmImfd.lib;opencv_world430d.lib;</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libwebpd.lib;libjasperd.lib;libtiffd.lib;IlmImfd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
