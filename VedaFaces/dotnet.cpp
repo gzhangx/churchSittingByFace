@@ -57,12 +57,8 @@ GGLIBRARY_API ResultMeta getResultMeta(veda::VedaFaces * face, unsigned int i) {
     meta.descriptorSize = -1;
     if (i < face_descriptors.size()) {
         auto tdes = face_descriptors[i];
-        meta.descriptorSize = tdes.size();
-        //for (float * b = tdes.begin(); b != tdes.end(); b++) {
-        //    det.descriptors.push_back(*b);
-        //}
+        meta.descriptorSize = tdes.size();        
     }
-    meta.descriptorSize = face_descriptors.size();
     auto shapes = face->getCurShapes();
     meta.pointSize = -1;
     if (i < shapes.size()) {

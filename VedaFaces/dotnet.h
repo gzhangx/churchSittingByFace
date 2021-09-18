@@ -21,9 +21,9 @@ struct DntPoint {
 };
 
 struct ResultMeta {
-    unsigned int descriptorSize;
-    DntRect rect;    
+    unsigned int descriptorSize;    
     unsigned int pointSize;
+    DntRect rect;
 };
 
 #pragma pack(pop)

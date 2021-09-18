@@ -35,9 +35,9 @@ namespace ConsoleNetTest
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         public struct ResultMeta
         {
-            public int descriptorSize;
-            public DntRect rect;
+            public int descriptorSize;            
             public int pointSize;
+            public DntRect rect;
         };
 
         public struct Array2dImgPtr { private IntPtr addr; }
