@@ -44,6 +44,27 @@ namespace ConsoleNetTest
 
             var res = GetRecoResult(face, img);
             CompDescs(res);
+
+            Bitmap resBmp = imgToBmp(img);
+            resBmp.Save("testout.bmp");
+        }
+
+        static Bitmap imgToBmp(VedaFace.Array2dImgPtr img)
+        {
+            var imgMeta = VedaFace.getImageMetaData(img);            
+            Bitmap bmp = new Bitmap((int)imgMeta.width, (int)imgMeta.height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            
+            var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+            byte[] buf = new byte[bmpData.Stride * imgMeta.height];
+            VedaFace.getImageData(img, (uint)bmpData.Stride, buf);
+            IntPtr ptr = bmpData.Scan0;
+
+            
+            System.Runtime.InteropServices.Marshal.Copy(buf, 0, ptr, buf.Length);
+
+            bmp.UnlockBits(bmpData);
+            return bmp;
         }
 
         static void CompDescs(List<RecoResult> res)
@@ -75,7 +96,7 @@ namespace ConsoleNetTest
         {
             List<RecoResult> ress = new List<RecoResult>();
 
-            int resCnt = VedaFace.ProcessImage(face, img);
+            uint resCnt = VedaFace.ProcessImage(face, img);
             Console.WriteLine("found " + resCnt);
             for (int i = 0; i < resCnt; i++)
             {

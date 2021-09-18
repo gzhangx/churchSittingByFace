@@ -47,8 +47,8 @@ GGLIBRARY_API void populateBgrImg(ImageInfo * imgInfo, VArray2dBgr*img) {
     populateImageData(*img, imgInfo);
 }
 
-GGLIBRARY_API size_t ProcessImage(VedaFaces * face, VArray2dBgr *img) {    
-    return face->ProcessImage(*img);
+GGLIBRARY_API unsigned int ProcessImage(VedaFaces * face, VArray2dBgr *img) {    
+    return face->ProcessImage(*img);        
 }
 
 GGLIBRARY_API ResultMeta getResultMeta(veda::VedaFaces * face, unsigned int i) {
@@ -98,4 +98,44 @@ GGLIBRARY_API int getResultDetPoints(veda::VedaFaces * face, DntPoint * data, un
         toPtr->y = pt.y();
     }
     return at;
+}
+
+
+template<typename T>
+void getImageData(T& t_, unsigned int stride, unsigned char * toData)
+{
+    dlib::image_view<T> t(t_);
+    unsigned height = t_.nr();
+    unsigned width = t_.nc();
+    t.set_size(height, width);
+    unsigned elementSize = 3; //TODO: get it from T
+    unsigned curStride = 0;
+    if (std::is_same<T, dlib::bgr_pixel>::value) {
+        elementSize = 3;        
+    }
+    for (unsigned n = 0; n < height; n++)
+    {
+        unsigned char* v = toData + curStride;
+        curStride += stride;
+        for (unsigned m = 0; m < width; m++)
+        {
+            dlib::bgr_pixel & p = t[n][m];
+            v[m * elementSize] = p.red;
+            v[m * elementSize + 1] = p.green;
+            v[m * elementSize + 2] = p.blue;
+        }
+    }
+}
+
+GGLIBRARY_API ImageMetaInfo getImageMetaData(VArray2dBgr*img) {
+    ImageMetaInfo res;
+    res.width = img->nc();
+    res.height = img->nr();
+    res.elementSize = 3;
+    res.stride = img->nc();
+    return res;
+}
+
+GGLIBRARY_API void getImageData(VArray2dBgr * img, unsigned int stride, unsigned char * data) {
+    getImageData(*img, stride, data);
 }
