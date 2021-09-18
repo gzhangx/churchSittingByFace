@@ -77,7 +77,7 @@ veda::VedaFaces::VedaFaces(std::string configDir) {
     deserialize(configDir + "/dlib_face_recognition_resnet_model_v1.dat") >> net;
 }
 
-void veda::VedaFaces::ProcessImage(VArray2dBgr& img) {
+size_t veda::VedaFaces::ProcessImage(VArray2dBgr& img) {
     //load_image(img, "test.png");
     // Make the image bigger by a factor of two.  This is useful since
     // the face detector looks for faces that are about 80 by 80 pixels
@@ -126,7 +126,8 @@ void veda::VedaFaces::ProcessImage(VArray2dBgr& img) {
     // In this 128D vector space, images from the same person will be close to each other
     // but vectors from different people will be far apart.  So we can use these vectors to
     // identify if a pair of images are from the same person or from different people.  
-    face_descriptors = net(faces);    
+    face_descriptors = net(faces);
+    return dets.size();
 }
 
 std::vector<unsigned long> veda::VedaFaces::GetLabels() {

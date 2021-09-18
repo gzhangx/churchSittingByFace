@@ -9,8 +9,37 @@ namespace ConsoleNetTest
 {
     class VedaFace
     {
-        [DllImport("VedaFaces.dll")]
-        public static extern IntPtr netInit(String configDir);
+        
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        public struct ImageInfo
+        {
+            public int width;
+            public int height;
+            public int stride;
+            public int elementSize;
+            public IntPtr data;
+        }
 
+        public struct Array2dImgPtr { private IntPtr addr; }
+
+        public struct VedaFacePtr { private IntPtr addr; }
+
+        [DllImport("VedaFaces.dll")]
+        public static extern VedaFacePtr netInit(String configDir);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern int ProcessImage(VedaFacePtr vedaFace, Array2dImgPtr info);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern Array2dImgPtr createBgrImg();
+
+        [DllImport("VedaFaces.dll")]
+        public static extern void deleteBgrImg(Array2dImgPtr img);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern void populateBgrImg(ImageInfo from, Array2dImgPtr src);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern int ProcessImage(VedaFacePtr face, IntPtr img);
     }
 }

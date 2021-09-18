@@ -63,7 +63,7 @@ namespace veda {
     public:
         VedaFaces(std::string configdir);
         
-        void ProcessImage(VArray2dBgr& img);
+        size_t ProcessImage(VArray2dBgr& img);
         std::vector<dlib::full_object_detection>& getCurShapes() { return shapes; }
         std::vector<dlib::matrix<dlib::rgb_pixel>>& getCurFaces() { return faces; }
         std::vector<dlib::matrix<float, 0, 1 >>& getFaceDescriptors() { return face_descriptors; }
