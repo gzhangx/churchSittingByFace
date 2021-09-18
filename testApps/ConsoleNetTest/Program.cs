@@ -18,6 +18,23 @@ namespace ConsoleNetTest
             var res = f.ProcessImage(img);
             VedaFacesDotNet.VedaFaces.debugCompDescs(res);
             Console.WriteLine("done");
+            var outBmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
+
+            using (Graphics g = Graphics.FromImage(outBmp))
+            {
+                foreach (var r in res)
+                {
+                    var ff = new VedaFacesDotNet.FaceFeatures(r);
+                    var lines = ff.getAll();
+                    foreach (var line in lines)
+                    {
+                        g.DrawLine(Pens.Aqua, new Point(line.from.x, line.from.y), new Point(line.to.x, line.to.y));
+                    }
+                }
+            }
+
+            outBmp.Save("testtestoutput.bmp");
+            
         }
         static void Main1(string[] args) 
         {
