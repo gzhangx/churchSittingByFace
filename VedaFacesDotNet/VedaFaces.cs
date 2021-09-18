@@ -42,7 +42,7 @@ namespace VedaFacesDotNet
         }
 
 
-        static VedaFaceNative.Array2dImgPtr bmpToImg(Bitmap bmp)
+        public static VedaFaceNative.Array2dImgPtr bmpToImg(Bitmap bmp)
         {
             var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             try

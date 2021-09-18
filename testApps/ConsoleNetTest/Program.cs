@@ -10,7 +10,16 @@ namespace ConsoleNetTest
 {
     class Program
     {
-        static void Main(string[] args) 
+        static void Main(string[] args)
+        {
+            VedaFacesDotNet.VedaFaces f = new VedaFacesDotNet.VedaFaces(null);
+            Bitmap bmp = (Bitmap)Bitmap.FromFile("test.png");
+            var img = VedaFacesDotNet.VedaFaces.bmpToImg(bmp);
+            var res = f.ProcessImage(img);
+            VedaFacesDotNet.VedaFaces.debugCompDescs(res);
+            Console.WriteLine("done");
+        }
+        static void Main1(string[] args) 
         {
             Bitmap bmp = (Bitmap)Bitmap.FromFile("test.png");
             var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
