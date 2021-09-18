@@ -1,5 +1,5 @@
 #include "dotnet.h"
-
+#include<opencv2/opencv.hpp>
 using namespace veda;
 
 GGLIBRARY_API VedaFaces * netInit(LPCSTR configDir) {
@@ -138,4 +138,26 @@ GGLIBRARY_API ImageMetaInfo getImageMetaData(VArray2dBgr*img) {
 
 GGLIBRARY_API void getImageData(VArray2dBgr * img, unsigned int stride, unsigned char * data) {
     getImageData(*img, stride, data);
+}
+
+
+
+
+//////////////////////////////////// video section /////////////////////////////////
+cv::VideoCapture * videoCapDev = NULL;
+GGLIBRARY_API int startVideoCapture(int id) {
+    if (videoCapDev != NULL) {
+        return 0; //already started
+    }
+    videoCapDev = new cv::VideoCapture(id);
+    return videoCapDev->isOpened();
+}
+
+GGLIBRARY_API int stopVideoCapture() {
+    if (videoCapDev == NULL) {
+        return 0; //already stoped
+    }
+    delete videoCapDev;
+    videoCapDev = NULL;
+    return 1;
 }

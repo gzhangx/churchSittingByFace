@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Canvas x:Name="canvDrawing" Grid.Column="0" Grid.Row="0"></Canvas>
+        <StackPanel x:Name="panBottom" Grid.Row="1" HorizontalAlignment="Left">
+            <Button x:Name="start" Width="100" Margin="5">Start</Button>
+        </StackPanel>
+        <StackPanel x:Name="panRight" Grid.Column="1"></StackPanel>
     </Grid>
 </Window>
