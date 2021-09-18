@@ -14,10 +14,10 @@ struct ImageInfo {
 };
 
 struct DntRect {
-    long t, l, r, b;    
+    int t, l, r, b;    
 };
 struct DntPoint {
-    long x,y;
+    int x,y;
 };
 
 struct ResultMeta {

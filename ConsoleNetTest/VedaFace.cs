@@ -23,13 +23,13 @@ namespace ConsoleNetTest
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         public struct DntRect
         {
-            public long t, l, r, b;
+            public int t, l, r, b;
         };
 
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         public struct DntPoint
         {
-            public long x, y;
+            public int x, y;
         };
 
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
@@ -66,10 +66,10 @@ namespace ConsoleNetTest
         public static extern ResultMeta getResultMeta(VedaFacePtr face, int i);
 
         [DllImport("VedaFaces.dll")]
-        public static extern int getResultDescriptors(VedaFacePtr face, float[] data, int who);
+        public static extern int getResultDescriptors(VedaFacePtr face, [Out] float[] data, int who);
 
         [DllImport("VedaFaces.dll")]
-        public static extern int getResultDetPoints(VedaFacePtr face, DntPoint[] data, int who);
+        public static extern int getResultDetPoints(VedaFacePtr face, [Out] DntPoint[] data, int who);
     }
 
     public class RecoResult

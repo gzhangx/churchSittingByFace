@@ -92,10 +92,10 @@ GGLIBRARY_API int getResultDetPoints(veda::VedaFaces * face, DntPoint * data, un
 
     int at = 0;
     for (; at < (int)fod.num_parts(); at++ ) {
-        auto pt = fod.part(at);
-        DntPoint & toPt = data[at];
-        toPt.x = pt.x();
-        toPt.y = pt.y();
+        auto pt = fod.part(at);        
+        DntPoint* toPtr = data + at;
+        toPtr->x = pt.x();
+        toPtr->y = pt.y();
     }
     return at;
 }
