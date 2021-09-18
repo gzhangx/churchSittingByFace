@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ConsoleNetTest
 {
-    class VedaFace
+    public class VedaFace
     {
-        
-        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
         public struct ImageInfo
         {
             public int width;
@@ -19,6 +19,26 @@ namespace ConsoleNetTest
             public int elementSize;
             public IntPtr data;
         }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct DntRect
+        {
+            public long t, l, r, b;
+        };
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct DntPoint
+        {
+            public long x, y;
+        };
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct ResultMeta
+        {
+            public int descriptorSize;
+            public DntRect rect;
+            public int pointSize;
+        };
 
         public struct Array2dImgPtr { private IntPtr addr; }
 
@@ -41,5 +61,21 @@ namespace ConsoleNetTest
 
         [DllImport("VedaFaces.dll")]
         public static extern int ProcessImage(VedaFacePtr face, IntPtr img);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern ResultMeta getResultMeta(VedaFacePtr face, int i);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern int getResultDescriptors(VedaFacePtr face, float[] data, int who);
+
+        [DllImport("VedaFaces.dll")]
+        public static extern int getResultDetPoints(VedaFacePtr face, DntPoint[] data, int who);
+    }
+
+    public class RecoResult
+    {
+        public VedaFace.DntRect rect;
+        public VedaFace.DntPoint[] points;
+        public float[] descriptors;        
     }
 }

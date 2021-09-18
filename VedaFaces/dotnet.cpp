@@ -50,3 +50,56 @@ GGLIBRARY_API void populateBgrImg(ImageInfo * imgInfo, VArray2dBgr*img) {
 GGLIBRARY_API size_t ProcessImage(VedaFaces * face, VArray2dBgr *img) {    
     return face->ProcessImage(*img);
 }
+
+GGLIBRARY_API ResultMeta getResultMeta(veda::VedaFaces * face, unsigned int i) {
+    ResultMeta meta = ResultMeta();
+    std::vector<dlib::matrix<float, 0, 1 >>& face_descriptors = face->getFaceDescriptors();
+    meta.descriptorSize = -1;
+    if (i < face_descriptors.size()) {
+        auto tdes = face_descriptors[i];
+        meta.descriptorSize = tdes.size();
+        //for (float * b = tdes.begin(); b != tdes.end(); b++) {
+        //    det.descriptors.push_back(*b);
+        //}
+    }
+    meta.descriptorSize = face_descriptors.size();
+    auto shapes = face->getCurShapes();
+    meta.pointSize = -1;
+    if (i < shapes.size()) {
+        dlib::full_object_detection & fod = face->getCurShapes()[i];
+        meta.pointSize = fod.num_parts();
+        dlib::rectangle& r = fod.get_rect();
+        meta.rect.l = r.left();
+        meta.rect.t = r.top();
+        meta.rect.r = r.right();
+        meta.rect.b = r.bottom();
+    }
+    return meta;
+}
+
+GGLIBRARY_API int getResultDescriptors(veda::VedaFaces * face, float * data, unsigned int who) {
+    std::vector<dlib::matrix<float, 0, 1 >>& face_descriptors = face->getFaceDescriptors();
+    if (who >= face_descriptors.size())  return -1;
+    auto tdes = face_descriptors[who];
+        
+    int at = 0;
+    for (float * b = tdes.begin(); b != tdes.end(); b++) {
+        *(data + at++) = *b;
+    }
+    return at;
+}
+
+
+GGLIBRARY_API int getResultDetPoints(veda::VedaFaces * face, DntPoint * data, unsigned int who) {
+    if (who >= face->getCurShapes().size()) return -1;
+    dlib::full_object_detection & fod = face->getCurShapes()[who];
+
+    int at = 0;
+    for (; at < (int)fod.num_parts(); at++ ) {
+        auto pt = fod.part(at);
+        DntPoint & toPt = data[at];
+        toPt.x = pt.x();
+        toPt.y = pt.y();
+    }
+    return at;
+}

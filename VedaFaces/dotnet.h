@@ -12,10 +12,26 @@ struct ImageInfo {
     unsigned int elementSize;
     unsigned char* data;
 };
+
+struct DntRect {
+    long t, l, r, b;    
+};
+struct DntPoint {
+    long x,y;
+};
+
+struct ResultMeta {
+    unsigned int descriptorSize;
+    DntRect rect;    
+    unsigned int pointSize;
+};
+
 #pragma pack(pop)
 
 GGLIBRARY_API veda::VedaFaces * netInit(LPCSTR configDir);
 GGLIBRARY_API size_t ProcessImage(veda::VedaFaces * face, veda::VArray2dBgr *img);
-
+GGLIBRARY_API ResultMeta getResultMeta(veda::VedaFaces * face, unsigned int i);
+GGLIBRARY_API int getResultDescriptors(veda::VedaFaces * face, float * data, unsigned int length);
+GGLIBRARY_API int getResultDetPoints(veda::VedaFaces * face, DntPoint * data, unsigned int who);
 
 #endif

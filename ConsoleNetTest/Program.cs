@@ -41,10 +41,55 @@ namespace ConsoleNetTest
 
             VedaFace.VedaFacePtr  face = VedaFace.netInit(curDir);
 
-            
-            int res = VedaFace.ProcessImage(face, img);
-            Console.WriteLine("found " + res);
-            
+
+            var res = GetRecoResult(face, img);
+            CompDescs(res);
+        }
+
+        static void CompDescs(List<RecoResult> res)
+        {
+            for (int i = 0; i < res.Count; i++)
+            {
+                Console.Write(" "+i+": " );
+                for (int j = i + 1; j < res.Count; j++)
+                {
+                    Console.Write(" "+j+"-> "+GetDescDist(res[i].descriptors, res[j].descriptors));
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static double GetDescDist(float[] a, float[] b)
+        {
+            float res = 0;
+            for (int i = 0; i < a.Length; i++)
+            {
+                float tmp = a[i] - b[i];
+                tmp *= tmp;
+                res += tmp;
+            }
+            return Math.Sqrt(res);
+        }
+
+        static List<RecoResult> GetRecoResult(VedaFace.VedaFacePtr face, VedaFace.Array2dImgPtr img)
+        {
+            List<RecoResult> ress = new List<RecoResult>();
+
+            int resCnt = VedaFace.ProcessImage(face, img);
+            Console.WriteLine("found " + resCnt);
+            for (int i = 0; i < resCnt; i++)
+            {
+                RecoResult res = new RecoResult();
+                var meta = VedaFace.getResultMeta(face, i);
+                res.descriptors = new float[meta.descriptorSize];
+                res.points = new VedaFace.DntPoint[meta.pointSize];
+                res.rect = meta.rect;
+
+                VedaFace.getResultDescriptors(face, res.descriptors, i);
+                VedaFace.getResultDetPoints(face, res.points, i);
+                ress.Add(res);
+            }
+            return ress;
         }
     }
 }
