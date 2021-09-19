@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FaceFeatures.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="VedaFaces.cs" />
     <Compile Include="VedaFacesNative.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

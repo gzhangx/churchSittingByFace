@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace VedaFacesDotNet
 {
@@ -108,6 +109,23 @@ namespace VedaFacesDotNet
     public class FaceDescriptor
     {
         public float[] descriptors { get; set; }
+        public double diff(FaceDescriptor des)
+        {
+            double total = 0;
+            for (int i = 0; i < descriptors.Length;i++)
+            {
+                float cur = descriptors[i] - des.descriptors[i];
+                cur *= cur;
+                total += cur;
+            }
+            return Math.Sqrt(total);
+        }
+        public String getHash()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var d in descriptors) sb.Append(d).Append("-");
+            return Utils.doMd5(sb.ToString());
+        }
     }
     public class RecoResult
     {

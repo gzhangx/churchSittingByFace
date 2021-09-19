@@ -11,8 +11,8 @@ namespace WpfFaceApp
     public class RecoInfo
     {
         public FaceDescriptor faceDesc;
-        public FaceImage image;
-        String Name;
-        String Id;
+        public String imageName;
+        public String name;
+        public String Id;
     }
 }

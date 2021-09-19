@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VedaFacesDotNet;
 
 namespace WpfFaceApp
 {
@@ -58,10 +59,12 @@ namespace WpfFaceApp
             }
         }
 
+        List<RecoInfo> recoInfos = new List<RecoInfo>();
         void videoCaptureRun()
         {
             try
             {
+                int loop = 0;
                 var img = new VedaFacesDotNet.VedaFaces.FaceImage();
                 while (videoCaptureThread != null)
                 {
@@ -85,6 +88,35 @@ namespace WpfFaceApp
                         }
                     }
                     //VedaFacesDotNet.VedaFaceNative.deleteBgrImg(img);
+
+                    if (recoRes.Count > 0)
+                    {
+                        var outImg = VedaFacesDotNet.VedaFaces.bmpToImg(outBmp);
+                        outImg.savePng("tests\\test" + loop + ".png");
+                        foreach (var r in recoRes)
+                        {                            
+                            RecoInfo found = null;
+                            foreach (var existing in recoInfos)
+                            {
+                                double diff = existing.faceDesc.diff(r.descriptor);
+                                if (diff < 0.6)
+                                {
+                                    found = existing;
+                                    Console.WriteLine("found existing, diff " + diff + " "+ found.name);
+                                }
+                            }
+                            if (found == null)
+                            {
+                                RecoInfo rInfo = new RecoInfo();
+                                rInfo.faceDesc = r.descriptor;                                
+                                rInfo.Id = r.descriptor.getHash();
+                                rInfo.imageName = "tests\\"+rInfo.Id + ".png";
+                                recoInfos.Add(rInfo);
+                            }
+                        }
+                        Console.WriteLine("Number guys " + recoInfos.Count);
+                    }                    
+                    loop++;                   
                     uiInvoke(() =>
                     {
                         imgMain.Source = Convert(outBmp);
