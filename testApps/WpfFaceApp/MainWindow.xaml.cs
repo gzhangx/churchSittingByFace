@@ -94,9 +94,7 @@ namespace WpfFaceApp
                                     g.DrawLine(Pens.Aqua, new System.Drawing.Point(line.from.x, line.from.y), new System.Drawing.Point(line.to.x, line.to.y));
                                 }
 
-                                g.DrawRectangle(Pens.White, new System.Drawing.Rectangle(
-                                    r.rect.l, r.rect.t, r.rect.r - r.rect.l, r.rect.b - r.rect.t
-                                    ));
+                                g.DrawRectangle(Pens.White, toRect(r.rect));
 
                                 RecoInfo found = null;
                                 foreach (var existing in recoInfos)
@@ -116,6 +114,17 @@ namespace WpfFaceApp
                                     rInfo.name = rInfo.Id;
                                     rInfo.imageName = "tests\\" + rInfo.Id + ".png";
                                     recoInfos.Add(rInfo);
+                                    uiInvoke(() =>
+                                    {
+                                        var npw = new NewPersonConfirmation();
+                                        var pimg = CropImage(outBmp, r.rect);
+                                        npw.SetImage(Convert(pimg), (str) =>
+                                        {
+                                            rInfo.name = str;
+                                            pimg.Save("tests\\" + rInfo.Id + "_" + rInfo.name + ".bmp");
+                                        });
+                                        npw.Show();
+                                    });
                                 } else
                                 {
                                     g.DrawString(found.name, objFont, System.Drawing.Brushes.Black, new PointF(r.rect.l, r.rect.t));
@@ -140,6 +149,25 @@ namespace WpfFaceApp
             {
                 videoCaptureThreadRunning = false;
                 VedaFacesDotNet.VedaFaces.stopVideoCapture();
+            }
+        }
+
+
+        public System.Drawing.Rectangle toRect(VedaFaceNative.DntRect r)
+        {
+            return new System.Drawing.Rectangle(r.l, r.t, r.r - r.l, r.b - r.t);
+        }
+        public Bitmap CropImage(Bitmap source, VedaFaceNative.DntRect section)
+        {
+            return CropImage(source, toRect(section));
+        }
+        public Bitmap CropImage(Bitmap source, System.Drawing.Rectangle section)
+        {
+            var bitmap = new Bitmap(section.Width, section.Height);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+                return bitmap;
             }
         }
 
