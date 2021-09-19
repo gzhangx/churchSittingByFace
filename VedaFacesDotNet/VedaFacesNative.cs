@@ -90,10 +90,14 @@ namespace VedaFacesDotNet
 
     }
 
+    public class FaceDescriptor
+    {
+        public float[] descriptors { get; set; }
+    }
     public class RecoResult
     {
         public VedaFaceNative.DntRect rect;
         public VedaFaceNative.DntPoint[] points;
-        public float[] descriptors;
+        public FaceDescriptor descriptor;
     }
 }

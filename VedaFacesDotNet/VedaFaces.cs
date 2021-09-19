@@ -2,31 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VedaFacesDotNet
 {
     public class VedaFaces
     {
-        public static void Test1(string bmpFileName)
-        {
-            Bitmap bmp = (Bitmap)Bitmap.FromFile("test.png");
-            var img = bmpToImg(bmp);
-            
-            String curDir = Directory.GetCurrentDirectory();
-            Console.WriteLine(curDir);
-            VedaFaceNative.VedaFacePtr face = VedaFaceNative.netInit(curDir);
-
-
-            var res = GetRecoResult(face, img);
-            debugCompDescs(res);
-
-            Bitmap resBmp = imgToBmp(img);
-            resBmp.Save("testout.bmp");
-        }
-
         private VedaFaceNative.VedaFacePtr face;
         public VedaFaces(String configDir)
         {
@@ -102,14 +82,16 @@ namespace VedaFacesDotNet
                 Console.Write(" " + i + ": ");
                 for (int j = i + 1; j < res.Count; j++)
                 {
-                    Console.Write(" " + j + "-> " + GetDescDist(res[i].descriptors, res[j].descriptors));
+                    Console.Write(" " + j + "-> " + GetDescDist(res[i].descriptor, res[j].descriptor));
                 }
                 Console.WriteLine();
             }
         }
 
-        public static double GetDescDist(float[] a, float[] b)
+        public static double GetDescDist(FaceDescriptor fa, FaceDescriptor fb)
         {
+            float[] a = fa.descriptors;
+            float[] b = fb.descriptors;
             float res = 0;
             for (int i = 0; i < a.Length; i++)
             {
@@ -129,11 +111,11 @@ namespace VedaFacesDotNet
             {
                 RecoResult res = new RecoResult();
                 var meta = VedaFaceNative.getResultMeta(face, i);
-                res.descriptors = new float[meta.descriptorSize];
+                res.descriptor = new FaceDescriptor { descriptors = new float[meta.descriptorSize] };
                 res.points = new VedaFaceNative.DntPoint[meta.pointSize];
                 res.rect = meta.rect;
 
-                VedaFaceNative.getResultDescriptors(face, res.descriptors, i);
+                VedaFaceNative.getResultDescriptors(face, res.descriptor.descriptors, i);
                 VedaFaceNative.getResultDetPoints(face, res.points, i);
                 ress.Add(res);
             }

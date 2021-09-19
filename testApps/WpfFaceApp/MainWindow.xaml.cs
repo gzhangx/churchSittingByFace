@@ -66,11 +66,6 @@ namespace WpfFaceApp
                 while (videoCaptureThread != null)
                 {
                     VedaFacesDotNet.VedaFaceNative.captureVideo(img);
-
-                    //Bitmap bmp = (Bitmap)Bitmap.FromFile("test.png");
-                    //img = VedaFacesDotNet.VedaFaces.bmpToImg(bmp);
-
-
                     var recoRes = faceReco.ProcessImage(img);
                     var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
                     VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
@@ -93,7 +88,7 @@ namespace WpfFaceApp
                     {
                         imgMain.Source = Convert(outBmp);
                     });
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1);
                 }
             }
             finally
