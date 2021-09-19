@@ -15,9 +15,9 @@
             <RowDefinition/>
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
-        <Canvas x:Name="canvDrawing" Grid.Column="0" Grid.Row="0"></Canvas>
+        <Image x:Name="imgMain" Grid.Column="0" Grid.Row="0"></Image>
         <StackPanel x:Name="panBottom" Grid.Row="1" HorizontalAlignment="Left">
-            <Button x:Name="start" Width="100" Margin="5">Start</Button>
+            <Button x:Name="btnStart" Width="100" Margin="5" Click="start_Click">Start</Button>
         </StackPanel>
         <StackPanel x:Name="panRight" Grid.Column="1"></StackPanel>
     </Grid>
