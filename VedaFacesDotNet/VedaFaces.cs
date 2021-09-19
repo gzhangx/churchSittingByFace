@@ -5,29 +5,96 @@ using System.IO;
 
 namespace VedaFacesDotNet
 {
-    public class VedaFaces
+    public class VedaFaces : IDisposable
     {
-        private VedaFaceNative.VedaFacePtr face;
+        public class FaceImage : IDisposable
+        {
+            internal VedaFaceNativeInternal.Array2dImgPtr img;
+
+            public FaceImage()
+            {
+                img = VedaFaceNativeInternal.createBgrImg();
+            }
+            public void Dispose()
+            {
+                if (img.addr != IntPtr.Zero) VedaFaceNativeInternal.deleteBgrImg(img);
+                img.addr = IntPtr.Zero;
+            }
+            ~FaceImage()
+            {
+                Dispose();
+            }
+
+            public Bitmap toBitmap()
+            {             
+                var imgMeta = VedaFaceNativeInternal.getImageMetaData(img);
+                Bitmap bmp = new Bitmap((int)imgMeta.width, (int)imgMeta.height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+                var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                try
+                {
+                    byte[] buf = new byte[bmpData.Stride * imgMeta.height];
+                    VedaFaceNativeInternal.getImageData(img, (uint)bmpData.Stride, buf);
+                    IntPtr ptr = bmpData.Scan0;
+
+
+                    System.Runtime.InteropServices.Marshal.Copy(buf, 0, ptr, buf.Length);
+
+                    return bmp;
+                }
+                finally
+                {
+                    bmp.UnlockBits(bmpData);
+                }
+            }
+        }
+
+        private VedaFaceNativeInternal.VedaFacePtr face;
         public VedaFaces(String configDir)
         {
+            face.addr = IntPtr.Zero;
             if (String.IsNullOrEmpty(configDir))
             {
                 configDir = Directory.GetCurrentDirectory();                                
             }
-            face = VedaFaceNative.netInit(configDir);
+            face = VedaFaceNativeInternal.netInit(configDir);
         }
-        public List<RecoResult> ProcessImage(VedaFaceNative.Array2dImgPtr img)
+        public void Dispose()
         {
-            return GetRecoResult(face, img);
+            if (face.addr != IntPtr.Zero) VedaFaceNativeInternal.netDestroy(face);
+            face.addr = IntPtr.Zero;
+        }
+        ~VedaFaces()
+        {
+            Dispose();
+        }
+        public List<RecoResult> ProcessImage(FaceImage img)
+        {
+            List<RecoResult> ress = new List<RecoResult>();
+
+            uint resCnt = VedaFaceNativeInternal.ProcessImage(face, img.img);
+            for (int i = 0; i < resCnt; i++)
+            {
+                RecoResult res = new RecoResult();
+                var meta = VedaFaceNativeInternal.getResultMeta(face, i);
+                res.descriptor = new FaceDescriptor { descriptors = new float[meta.descriptorSize] };
+                res.points = new VedaFaceNative.DntPoint[meta.pointSize];
+                res.rect = meta.rect;
+
+                VedaFaceNativeInternal.getResultDescriptors(face, res.descriptor.descriptors, i);
+                VedaFaceNativeInternal.getResultDetPoints(face, res.points, i);
+                ress.Add(res);
+            }
+            return ress;
         }
 
 
-        public static VedaFaceNative.Array2dImgPtr bmpToImg(Bitmap bmp)
+        public static FaceImage bmpToImg(Bitmap bmp)
         {
             var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             try
             {
-                VedaFaceNative.Array2dImgPtr img = VedaFaceNative.createBgrImg();
+                var img = new FaceImage();
                 IntPtr ptr = bmpData.Scan0;
 
                 // Declare an array to hold the bytes of the bitmap.
@@ -37,14 +104,14 @@ namespace VedaFacesDotNet
                 // Copy the RGB values into the array.
                 System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-                VedaFaceNative.populateBgrImg(new VedaFaceNative.ImageInfo
+                VedaFaceNativeInternal.populateBgrImg(new VedaFaceNative.ImageInfo
                 {
                     width = bmpData.Width,
                     height = bmpData.Height,
                     stride = bmpData.Stride,
                     elementSize = 3,
                     data = bmpData.Scan0,
-                }, img);
+                }, img.img);
                 return img;
             }
             finally
@@ -52,28 +119,7 @@ namespace VedaFacesDotNet
                 bmp.UnlockBits(bmpData);
             }            
         }
-        public static Bitmap imgToBmp(VedaFaceNative.Array2dImgPtr img)
-        {
-            var imgMeta = VedaFaceNative.getImageMetaData(img);
-            Bitmap bmp = new Bitmap((int)imgMeta.width, (int)imgMeta.height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-            var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            try
-            {
-                byte[] buf = new byte[bmpData.Stride * imgMeta.height];
-                VedaFaceNative.getImageData(img, (uint)bmpData.Stride, buf);
-                IntPtr ptr = bmpData.Scan0;
-
-
-                System.Runtime.InteropServices.Marshal.Copy(buf, 0, ptr, buf.Length);
-
-                return bmp;
-            }
-            finally
-            {
-                bmp.UnlockBits(bmpData);
-            }
-        }
+        
 
         public static void debugCompDescs(List<RecoResult> res)
         {
@@ -101,25 +147,22 @@ namespace VedaFacesDotNet
             }
             return Math.Sqrt(res);
         }
+        
 
-        static List<RecoResult> GetRecoResult(VedaFaceNative.VedaFacePtr face, VedaFaceNative.Array2dImgPtr img)
+
+        public static int startVideoCapture(int id)
         {
-            List<RecoResult> ress = new List<RecoResult>();
+            return VedaFaceNativeInternal.startVideoCapture(id);
+        }
 
-            uint resCnt = VedaFaceNative.ProcessImage(face, img);
-            for (int i = 0; i < resCnt; i++)
-            {
-                RecoResult res = new RecoResult();
-                var meta = VedaFaceNative.getResultMeta(face, i);
-                res.descriptor = new FaceDescriptor { descriptors = new float[meta.descriptorSize] };
-                res.points = new VedaFaceNative.DntPoint[meta.pointSize];
-                res.rect = meta.rect;
+        public static int stopVideoCapture()
+        {
+            return VedaFaceNativeInternal.stopVideoCapture();
+        }
 
-                VedaFaceNative.getResultDescriptors(face, res.descriptor.descriptors, i);
-                VedaFaceNative.getResultDetPoints(face, res.points, i);
-                ress.Add(res);
-            }
-            return ress;
+        public static void captureVideo(FaceImage img)
+        {
+            VedaFaceNativeInternal.captureVideo(img.img);
         }
     }
 }

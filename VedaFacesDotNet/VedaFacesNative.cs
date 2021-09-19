@@ -45,15 +45,22 @@ namespace VedaFacesDotNet
             public DntRect rect;
         };
 
-        public struct Array2dImgPtr {public IntPtr addr;}
+    }
 
-        public struct VedaFacePtr { public IntPtr addr; }
+    class VedaFaceNativeInternal {
+        public struct Array2dImgPtr {
+            public IntPtr addr;
+        }
+
+        public struct VedaFacePtr {
+            public IntPtr addr;            
+        }
 
         [DllImport("VedaFaces.dll")]
         public static extern VedaFacePtr netInit(String configDir);
 
         [DllImport("VedaFaces.dll")]
-        private static extern void netDestroy(VedaFacePtr face);
+        public static extern void netDestroy(VedaFacePtr face);
 
         [DllImport("VedaFaces.dll")]
         public static extern uint ProcessImage(VedaFacePtr vedaFace, Array2dImgPtr info);
@@ -62,22 +69,22 @@ namespace VedaFacesDotNet
         public static extern Array2dImgPtr createBgrImg();
 
         [DllImport("VedaFaces.dll")]
-        private static extern void deleteBgrImg(Array2dImgPtr img);
+        public static extern void deleteBgrImg(Array2dImgPtr img);
 
         [DllImport("VedaFaces.dll")]
-        public static extern void populateBgrImg(ImageInfo from, Array2dImgPtr src);
+        public static extern void populateBgrImg(VedaFaceNative.ImageInfo from, Array2dImgPtr src);
 
         [DllImport("VedaFaces.dll")]
-        public static extern ResultMeta getResultMeta(VedaFacePtr face, int i);
+        public static extern VedaFaceNative.ResultMeta getResultMeta(VedaFacePtr face, int i);
 
         [DllImport("VedaFaces.dll")]
         public static extern int getResultDescriptors(VedaFacePtr face, [Out] float[] data, int who);
 
         [DllImport("VedaFaces.dll")]
-        public static extern int getResultDetPoints(VedaFacePtr face, [Out] DntPoint[] data, int who);
+        public static extern int getResultDetPoints(VedaFacePtr face, [Out] VedaFaceNative.DntPoint[] data, int who);
 
         [DllImport("VedaFaces.dll")]
-        public static extern ImageMetaInfo getImageMetaData(Array2dImgPtr img);
+        public static extern VedaFaceNative.ImageMetaInfo getImageMetaData(Array2dImgPtr img);
 
         [DllImport("VedaFaces.dll")]
         public static extern void getImageData(Array2dImgPtr img, uint stride, [Out] byte[] buffer);
@@ -92,7 +99,7 @@ namespace VedaFacesDotNet
         public static extern int captureVideo(Array2dImgPtr img);
 
     }
-
+    
     public class FaceDescriptor
     {
         public float[] descriptors { get; set; }

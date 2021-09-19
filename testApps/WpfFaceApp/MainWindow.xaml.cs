@@ -40,7 +40,7 @@ namespace WpfFaceApp
             }
             if (videoCaptureThread == null && !videoCaptureThreadRunning)
             {
-                int started = VedaFacesDotNet.VedaFaceNative.startVideoCapture(0);
+                int started = VedaFacesDotNet.VedaFaces.startVideoCapture(0);
                 if (started == 0)
                 {
                     MessageBox.Show("Video Start failed");
@@ -52,7 +52,7 @@ namespace WpfFaceApp
             }
             else
             {
-                VedaFacesDotNet.VedaFaceNative.stopVideoCapture();
+                VedaFacesDotNet.VedaFaces.stopVideoCapture();
                 videoCaptureThread = null;
                 btnStart.Content = "Click To Start";
             }
@@ -61,16 +61,16 @@ namespace WpfFaceApp
         void videoCaptureRun()
         {
             try
-            {
-                var img = VedaFacesDotNet.VedaFaceNative.createBgrImg();
+            {                
                 while (videoCaptureThread != null)
                 {
-                    VedaFacesDotNet.VedaFaceNative.captureVideo(img);
+                    var img = new VedaFacesDotNet.VedaFaces.FaceImage();
+                    VedaFacesDotNet.VedaFaces.captureVideo(img);
                     var recoRes = faceReco.ProcessImage(img);
                     //var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
                     VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
                     Console.WriteLine("done");
-                    var outBmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
+                    var outBmp = img.toBitmap();
                     Console.WriteLine("Got results " + recoRes.Count);
                     using (Graphics g = Graphics.FromImage(outBmp))
                     {
@@ -96,7 +96,7 @@ namespace WpfFaceApp
             finally
             {
                 videoCaptureThreadRunning = false;
-                VedaFacesDotNet.VedaFaceNative.stopVideoCapture();
+                VedaFacesDotNet.VedaFaces.stopVideoCapture();
             }
         }
 

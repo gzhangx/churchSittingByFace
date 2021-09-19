@@ -18,7 +18,7 @@ namespace ConsoleNetTest
             var res = f.ProcessImage(img);
             VedaFacesDotNet.VedaFaces.debugCompDescs(res);
             Console.WriteLine("done");
-            var outBmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
+            var outBmp = img.toBitmap();
 
             using (Graphics g = Graphics.FromImage(outBmp))
             {
