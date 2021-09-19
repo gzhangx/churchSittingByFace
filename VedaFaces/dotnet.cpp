@@ -52,6 +52,14 @@ GGLIBRARY_API void deleteBgrImg(VArray2dBgr*img) {
     delete img;
 }
 
+GGLIBRARY_API void loadImage(VArray2dBgr*img, const char *name) {
+    load_image(*img, name);
+}
+
+GGLIBRARY_API void savePng(VArray2dBgr*img, const char *name) {
+    save_png(*img, name);
+}
+
 GGLIBRARY_API void populateBgrImg(ImageInfo * imgInfo, VArray2dBgr*img) {
     populateImageData(*img, imgInfo);
 }

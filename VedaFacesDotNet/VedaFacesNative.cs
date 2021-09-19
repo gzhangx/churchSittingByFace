@@ -98,6 +98,11 @@ namespace VedaFacesDotNet
         [DllImport("VedaFaces.dll")]
         public static extern int captureVideo(Array2dImgPtr img);
 
+        [DllImport("VedaFaces.dll")]
+        public static extern void loadImage(Array2dImgPtr img, String name);
+        [DllImport("VedaFaces.dll")]
+        public static extern void savePng(Array2dImgPtr img, String name);
+
     }
     
     public class FaceDescriptor

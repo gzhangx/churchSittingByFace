@@ -61,10 +61,10 @@ namespace WpfFaceApp
         void videoCaptureRun()
         {
             try
-            {                
+            {
+                var img = new VedaFacesDotNet.VedaFaces.FaceImage();
                 while (videoCaptureThread != null)
                 {
-                    var img = new VedaFacesDotNet.VedaFaces.FaceImage();
                     VedaFacesDotNet.VedaFaces.captureVideo(img);
                     var recoRes = faceReco.ProcessImage(img);
                     //var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);

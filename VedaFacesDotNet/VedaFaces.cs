@@ -47,6 +47,16 @@ namespace VedaFacesDotNet
                     bmp.UnlockBits(bmpData);
                 }
             }
+
+            public void savePng(String name)
+            {
+                VedaFaceNativeInternal.savePng(img, name);
+            }
+
+            public void loadImage(String name)
+            {
+                VedaFaceNativeInternal.loadImage(img, name);
+            }
         }
 
         private VedaFaceNativeInternal.VedaFacePtr face;
