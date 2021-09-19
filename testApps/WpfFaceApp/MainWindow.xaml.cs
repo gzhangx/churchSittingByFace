@@ -65,13 +65,18 @@ namespace WpfFaceApp
                 var img = VedaFacesDotNet.VedaFaceNative.createBgrImg();
                 while (videoCaptureThread != null)
                 {
-                    VedaFacesDotNet.VedaFaceNative.captureVideo(img);                    
+                    VedaFacesDotNet.VedaFaceNative.captureVideo(img);
+
+                    //Bitmap bmp = (Bitmap)Bitmap.FromFile("test.png");
+                    //img = VedaFacesDotNet.VedaFaces.bmpToImg(bmp);
+
+
                     var recoRes = faceReco.ProcessImage(img);
                     var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
                     VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
                     Console.WriteLine("done");
                     var outBmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
-
+                    Console.WriteLine("Got results " + recoRes.Count);
                     using (Graphics g = Graphics.FromImage(outBmp))
                     {
                         foreach (var r in recoRes)
@@ -86,8 +91,9 @@ namespace WpfFaceApp
                     }
                     uiInvoke(() =>
                     {
-                        imgMain.Source = Convert(bmp);
+                        imgMain.Source = Convert(outBmp);
                     });
+                    Thread.Sleep(1000);
                 }
             }
             finally
