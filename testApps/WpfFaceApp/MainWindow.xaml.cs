@@ -24,9 +24,14 @@ namespace WpfFaceApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        System.Drawing.Font objFont;
         public MainWindow()
         {
             InitializeComponent();
+            System.Drawing.Text.InstalledFontCollection installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
+            var fontFamilies = installedFontCollection.Families;
+            objFont = new System.Drawing.Font(fontFamilies.Where(x => x.Name == "Arial").FirstOrDefault(), 10);
+
         }
 
         bool videoCaptureThreadRunning = false;
@@ -60,6 +65,7 @@ namespace WpfFaceApp
         }
 
         List<RecoInfo> recoInfos = new List<RecoInfo>();
+        
         void videoCaptureRun()
         {
             try
@@ -74,48 +80,53 @@ namespace WpfFaceApp
                     VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
                     Console.WriteLine("done");
                     var outBmp = img.toBitmap();
-                    Console.WriteLine("Got results " + recoRes.Count);
-                    using (Graphics g = Graphics.FromImage(outBmp))
-                    {
-                        foreach (var r in recoRes)
-                        {
-                            var ff = new VedaFacesDotNet.FaceFeatures(r);
-                            var lines = ff.getAll();
-                            foreach (var line in lines)
-                            {
-                                g.DrawLine(Pens.Aqua, new System.Drawing.Point(line.from.x, line.from.y), new System.Drawing.Point(line.to.x, line.to.y));
-                            }
-                        }
-                    }
-                    //VedaFacesDotNet.VedaFaceNative.deleteBgrImg(img);
-
                     if (recoRes.Count > 0)
                     {
-                        var outImg = VedaFacesDotNet.VedaFaces.bmpToImg(outBmp);
-                        outImg.savePng("tests\\test" + loop + ".png");
-                        foreach (var r in recoRes)
-                        {                            
-                            RecoInfo found = null;
-                            foreach (var existing in recoInfos)
+                        Console.WriteLine("Got results " + recoRes.Count);
+                        using (Graphics g = Graphics.FromImage(outBmp))
+                        {
+                            foreach (var r in recoRes)
                             {
-                                double diff = existing.faceDesc.diff(r.descriptor);
-                                if (diff < 0.6)
+                                var ff = new FaceFeatures(r);
+                                var lines = ff.getAll();
+                                foreach (var line in lines)
                                 {
-                                    found = existing;
-                                    Console.WriteLine("found existing, diff " + diff + " "+ found.name);
+                                    g.DrawLine(Pens.Aqua, new System.Drawing.Point(line.from.x, line.from.y), new System.Drawing.Point(line.to.x, line.to.y));
+                                }
+
+                                g.DrawRectangle(Pens.White, new System.Drawing.Rectangle(
+                                    r.rect.l, r.rect.t, r.rect.r - r.rect.l, r.rect.b - r.rect.t
+                                    ));
+
+                                RecoInfo found = null;
+                                foreach (var existing in recoInfos)
+                                {
+                                    double diff = existing.faceDesc.diff(r.descriptor);
+                                    if (diff < 0.6)
+                                    {
+                                        found = existing;
+                                        Console.WriteLine("found existing, diff " + diff + " " + found.name);
+                                    }
+                                }
+                                if (found == null)
+                                {
+                                    RecoInfo rInfo = new RecoInfo();
+                                    rInfo.faceDesc = r.descriptor;
+                                    rInfo.Id = r.descriptor.getHash();
+                                    rInfo.name = rInfo.Id;
+                                    rInfo.imageName = "tests\\" + rInfo.Id + ".png";
+                                    recoInfos.Add(rInfo);
+                                } else
+                                {
+                                    g.DrawString(found.name, objFont, System.Drawing.Brushes.Black, new PointF(r.rect.l, r.rect.t));
                                 }
                             }
-                            if (found == null)
-                            {
-                                RecoInfo rInfo = new RecoInfo();
-                                rInfo.faceDesc = r.descriptor;                                
-                                rInfo.Id = r.descriptor.getHash();
-                                rInfo.imageName = "tests\\"+rInfo.Id + ".png";
-                                recoInfos.Add(rInfo);
-                            }
                         }
+                        //VedaFacesDotNet.VedaFaceNative.deleteBgrImg(img);
+                        //var outImg = VedaFacesDotNet.VedaFaces.bmpToImg(outBmp);
+                        //outImg.savePng("tests\\test" + loop + ".png");                        
                         Console.WriteLine("Number guys " + recoInfos.Count);
-                    }                    
+                    }
                     loop++;                   
                     uiInvoke(() =>
                     {
