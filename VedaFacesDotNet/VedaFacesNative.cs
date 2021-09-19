@@ -45,12 +45,15 @@ namespace VedaFacesDotNet
             public DntRect rect;
         };
 
-        public struct Array2dImgPtr { public IntPtr addr; }
+        public struct Array2dImgPtr {public IntPtr addr;}
 
         public struct VedaFacePtr { public IntPtr addr; }
 
         [DllImport("VedaFaces.dll")]
         public static extern VedaFacePtr netInit(String configDir);
+
+        [DllImport("VedaFaces.dll")]
+        private static extern void netDestroy(VedaFacePtr face);
 
         [DllImport("VedaFaces.dll")]
         public static extern uint ProcessImage(VedaFacePtr vedaFace, Array2dImgPtr info);
@@ -59,7 +62,7 @@ namespace VedaFacesDotNet
         public static extern Array2dImgPtr createBgrImg();
 
         [DllImport("VedaFaces.dll")]
-        public static extern void deleteBgrImg(Array2dImgPtr img);
+        private static extern void deleteBgrImg(Array2dImgPtr img);
 
         [DllImport("VedaFaces.dll")]
         public static extern void populateBgrImg(ImageInfo from, Array2dImgPtr src);

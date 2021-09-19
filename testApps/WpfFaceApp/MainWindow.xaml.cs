@@ -67,7 +67,7 @@ namespace WpfFaceApp
                 {
                     VedaFacesDotNet.VedaFaceNative.captureVideo(img);
                     var recoRes = faceReco.ProcessImage(img);
-                    var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
+                    //var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
                     VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
                     Console.WriteLine("done");
                     var outBmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
@@ -84,9 +84,11 @@ namespace WpfFaceApp
                             }
                         }
                     }
+                    //VedaFacesDotNet.VedaFaceNative.deleteBgrImg(img);
                     uiInvoke(() =>
                     {
                         imgMain.Source = Convert(outBmp);
+                        outBmp.Dispose();
                     });
                     Thread.Sleep(1);
                 }

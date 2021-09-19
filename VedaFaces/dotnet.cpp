@@ -13,6 +13,10 @@ GGLIBRARY_API VedaFaces * netInit(LPCSTR configDir) {
 }
 
 
+GGLIBRARY_API void netDestroy(VedaFaces *face) {
+    delete face;
+}
+
 template<typename T>
 void populateImageData(T& t_, ImageInfo * imgInfo)
 {
