@@ -78,6 +78,16 @@ namespace VedaFacesDotNet
 
         [DllImport("VedaFaces.dll")]
         public static extern void getImageData(Array2dImgPtr img, uint stride, [Out] byte[] buffer);
+
+
+
+        [DllImport("VedaFaces.dll")]
+        public static extern int startVideoCapture(int id);
+        [DllImport("VedaFaces.dll")]
+        public static extern int stopVideoCapture();
+        [DllImport("VedaFaces.dll")]
+        public static extern int captureVideo(Array2dImgPtr img);
+
     }
 
     public class RecoResult

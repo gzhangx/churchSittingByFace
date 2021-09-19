@@ -1,5 +1,10 @@
 #include "dotnet.h"
 #include<opencv2/opencv.hpp>
+//#include <dlib/image_processing.h>
+//#include <dlib/gui_widgets.h>
+#include <dlib/image_io.h>
+#include <dlib/opencv/cv_image.h>
+
 using namespace veda;
 
 GGLIBRARY_API VedaFaces * netInit(LPCSTR configDir) {
@@ -159,5 +164,13 @@ GGLIBRARY_API int stopVideoCapture() {
     }
     delete videoCapDev;
     videoCapDev = NULL;
+    return 1;
+}
+
+GGLIBRARY_API int captureVideo(VArray2dBgr * img) {
+    if (videoCapDev == NULL) return 0;
+    cv::Mat mat;
+    *videoCapDev >> mat;
+    dlib::assign_image(*img, dlib::cv_image<dlib::bgr_pixel>(mat));
     return 1;
 }
