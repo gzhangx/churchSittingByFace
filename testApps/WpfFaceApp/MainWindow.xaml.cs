@@ -30,8 +30,14 @@ namespace WpfFaceApp
 
         bool videoCaptureThreadRunning = false;
         Thread videoCaptureThread = null;
+
+        VedaFacesDotNet.VedaFaces faceReco;
         private void start_Click(object sender, RoutedEventArgs e)
         {
+            if (faceReco == null)
+            {
+                faceReco = new VedaFacesDotNet.VedaFaces(null);
+            }
             if (videoCaptureThread == null && !videoCaptureThreadRunning)
             {
                 int started = VedaFacesDotNet.VedaFaceNative.startVideoCapture(0);
@@ -59,9 +65,25 @@ namespace WpfFaceApp
                 var img = VedaFacesDotNet.VedaFaceNative.createBgrImg();
                 while (videoCaptureThread != null)
                 {
-                    VedaFacesDotNet.VedaFaceNative.captureVideo(img);
+                    VedaFacesDotNet.VedaFaceNative.captureVideo(img);                    
+                    var recoRes = faceReco.ProcessImage(img);
                     var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
+                    VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
+                    Console.WriteLine("done");
+                    var outBmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
 
+                    using (Graphics g = Graphics.FromImage(outBmp))
+                    {
+                        foreach (var r in recoRes)
+                        {
+                            var ff = new VedaFacesDotNet.FaceFeatures(r);
+                            var lines = ff.getAll();
+                            foreach (var line in lines)
+                            {
+                                g.DrawLine(Pens.Aqua, new System.Drawing.Point(line.from.x, line.from.y), new System.Drawing.Point(line.to.x, line.to.y));
+                            }
+                        }
+                    }
                     uiInvoke(() =>
                     {
                         imgMain.Source = Convert(bmp);
