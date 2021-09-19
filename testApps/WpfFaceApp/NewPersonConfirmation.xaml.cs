@@ -25,10 +25,12 @@ namespace WpfFaceApp
         }
 
         private Action<String> onOk = null;
-        public void SetImage(BitmapImage img, Action<String> okAct)
+        private Action onCancel = null;
+        public void SetImage(BitmapImage img, Action<String> okAct, Action cancelAct)
         {
             imgPerson.Source = img;
             onOk = okAct;
+            onCancel = cancelAct;
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
@@ -39,6 +41,7 @@ namespace WpfFaceApp
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
+            onCancel();
             this.Close();
         }
     }

@@ -65,7 +65,7 @@ namespace WpfFaceApp
         }
 
         List<RecoInfo> recoInfos = new List<RecoInfo>();
-        
+
         void videoCaptureRun()
         {
             try
@@ -97,7 +97,8 @@ namespace WpfFaceApp
                                 g.DrawRectangle(Pens.White, toRect(r.rect));
 
                                 RecoInfo found = null;
-                                foreach (var existing in recoInfos)
+                                var locked = recoInfos.ToArray();
+                                foreach (var existing in locked)
                                 {
                                     double diff = existing.faceDesc.diff(r.descriptor);
                                     if (diff < 0.6)
@@ -113,7 +114,10 @@ namespace WpfFaceApp
                                     rInfo.Id = r.descriptor.getHash();
                                     rInfo.name = rInfo.Id;
                                     rInfo.imageName = "tests\\" + rInfo.Id + ".png";
-                                    recoInfos.Add(rInfo);
+                                    lock (recoInfos)
+                                    {
+                                        recoInfos.Add(rInfo);
+                                    }
                                     uiInvoke(() =>
                                     {
                                         var npw = new NewPersonConfirmation();
@@ -122,6 +126,13 @@ namespace WpfFaceApp
                                         {
                                             rInfo.name = str;
                                             pimg.Save("tests\\" + rInfo.Id + "_" + rInfo.name + ".bmp");
+                                        },
+                                        ()=>
+                                        {
+                                            lock (recoInfos)
+                                            {
+                                                recoInfos.Remove(rInfo);
+                                            }
                                         });
                                         npw.Show();
                                     });
