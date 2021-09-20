@@ -125,7 +125,7 @@ namespace WpfFaceApp
                                         npw.SetImage(Convert(pimg), (str) =>
                                         {
                                             rInfo.name = str;
-                                            pimg.Save("tests\\" + rInfo.Id + "_" + rInfo.name + ".bmp");
+                                            SavePerson(rInfo, pimg);
                                         },
                                         ()=>
                                         {
@@ -164,6 +164,15 @@ namespace WpfFaceApp
         }
 
 
+        void SavePerson(RecoInfo info, Bitmap img)
+        {
+            string[] paths = { @"persons", info.Id};
+            string saveDir = System.IO.Path.Combine(paths);
+            Directory.CreateDirectory(saveDir);            
+            System.IO.File.WriteAllText(System.IO.Path.Combine(saveDir, "info.json"), JsonSerializer.serialize(info));
+
+            img.Save(System.IO.Path.Combine(saveDir, "image.bmp"));
+        }
         public System.Drawing.Rectangle toRect(VedaFaceNative.DntRect r)
         {
             return new System.Drawing.Rectangle(r.l, r.t, r.r - r.l, r.b - r.t);
