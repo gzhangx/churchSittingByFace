@@ -13,11 +13,12 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Image x:Name="imgMain" Grid.Column="0" Grid.Row="0"></Image>
-        <StackPanel x:Name="panBottom" Grid.Row="1" HorizontalAlignment="Left">
+        <StackPanel x:Name="panBottom" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button x:Name="btnStart" Width="100" Margin="5" Click="start_Click">Start</Button>
+            <Button x:Name="btnTest" Width="100" Margin="5" Click="btnTest_Click">Test</Button>
         </StackPanel>
         <StackPanel x:Name="panRight" Grid.Column="1"></StackPanel>
     </Grid>

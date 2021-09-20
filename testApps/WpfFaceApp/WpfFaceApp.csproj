@@ -80,10 +80,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BlockParser.cs" />
     <Compile Include="NewPersonConfirmation.xaml.cs">
       <DependentUpon>NewPersonConfirmation.xaml</DependentUpon>
     </Compile>
     <Compile Include="RecoInfo.cs" />
+    <Compile Include="UserControlSeats.xaml.cs">
+      <DependentUpon>UserControlSeats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSeats.xaml.cs">
+      <DependentUpon>WindowSeats.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +104,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NewPersonConfirmation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlSeats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSeats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,6 +148,11 @@
       <Project>{fc9f8181-0dd8-4d0a-ab27-e8f8a141bf53}</Project>
       <Name>VedaFacesDotNet</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\seatConfig.txt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

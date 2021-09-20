@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
@@ -26,13 +27,16 @@ namespace WpfFaceApp
     public partial class MainWindow : Window
     {
         System.Drawing.Font objFont;
+        BlockParser blockParser;
         public MainWindow()
         {
             InitializeComponent();
             System.Drawing.Text.InstalledFontCollection installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
             var fontFamilies = installedFontCollection.Families;
-            objFont = new System.Drawing.Font(fontFamilies.Where(x => x.Name == "Arial").FirstOrDefault(), 10);
+            objFont = new System.Drawing.Font(fontFamilies.Where(x => x.Name == "Arial").FirstOrDefault(), 20);
             LoadPersons();
+
+            blockParser = new BlockParser();
         }
 
         bool videoCaptureThreadRunning = false;
@@ -138,7 +142,9 @@ namespace WpfFaceApp
                                         npw.Show();
                                     });
                                 } else
-                                {
+                                {                                   
+                                    var stringSize = g.MeasureString("measureString", objFont);
+                                    g.FillRectangle(System.Drawing.Brushes.White, r.rect.l, r.rect.t, stringSize.Width, stringSize.Height);
                                     g.DrawString(found.name, objFont, System.Drawing.Brushes.Black, new PointF(r.rect.l, r.rect.t));
                                 }
                             }
@@ -237,7 +243,13 @@ namespace WpfFaceApp
         {
             VedaFacesDotNet.VedaFaces.stopVideoCapture();            
             videoCaptureThread = null;
-            Thread.Sleep(2000);
+        }
+
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+            var pg = new WindowSeats();
+            pg.Show();
+            pg.Init(blockParser);
         }
     }
 }
