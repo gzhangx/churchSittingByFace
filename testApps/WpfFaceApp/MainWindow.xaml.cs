@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace WpfFaceApp
             System.Drawing.Text.InstalledFontCollection installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
             var fontFamilies = installedFontCollection.Families;
             objFont = new System.Drawing.Font(fontFamilies.Where(x => x.Name == "Arial").FirstOrDefault(), 10);
-
+            LoadPersons();
         }
 
         bool videoCaptureThreadRunning = false;
@@ -164,14 +165,37 @@ namespace WpfFaceApp
         }
 
 
+        const String PERSONS_DIR_NAME = @"persons";
+        const String PERSONS_INFO_FILE = "info.json";
         void SavePerson(RecoInfo info, Bitmap img)
         {
-            string[] paths = { @"persons", info.Id};
+            string[] paths = { PERSONS_DIR_NAME, info.Id};
             string saveDir = System.IO.Path.Combine(paths);
-            Directory.CreateDirectory(saveDir);            
-            System.IO.File.WriteAllText(System.IO.Path.Combine(saveDir, "info.json"), JsonSerializer.serialize(info));
+            Directory.CreateDirectory(saveDir);
+            MemoryStream msObj = new MemoryStream();
+            new DataContractJsonSerializer(typeof(RecoInfo)).WriteObject(msObj, info);
+            msObj.Position = 0;
+            StreamReader sr = new StreamReader(msObj);
+            String content = sr.ReadToEnd();
+            File.WriteAllText(System.IO.Path.Combine(saveDir, PERSONS_INFO_FILE), content);
 
             img.Save(System.IO.Path.Combine(saveDir, "image.bmp"));
+        }
+
+        void LoadPersons()
+        {
+            recoInfos.Clear();
+            String[] dirs = Directory.GetDirectories(PERSONS_DIR_NAME);
+            foreach (var dir in dirs)
+            {
+                string[] paths = { dir, PERSONS_INFO_FILE };                
+                String path = System.IO.Path.Combine(paths);
+                Console.WriteLine("Loading " + path);
+                string jsonStr = File.ReadAllText(path);
+                var stream = new MemoryStream(UTF8Encoding.UTF8.GetBytes(jsonStr));
+                RecoInfo info = (RecoInfo)new DataContractJsonSerializer(typeof(RecoInfo)).ReadObject(stream);
+                recoInfos.Add(info);
+            }
         }
         public System.Drawing.Rectangle toRect(VedaFaceNative.DntRect r)
         {
@@ -207,6 +231,13 @@ namespace WpfFaceApp
         void uiInvoke(Action act)
         {
             Dispatcher.Invoke(act);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            VedaFacesDotNet.VedaFaces.stopVideoCapture();            
+            videoCaptureThread = null;
+            Thread.Sleep(2000);
         }
     }
 }

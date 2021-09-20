@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfFaceApp"
         mc:Ignorable="d"
-        Title="NewPersonConfirmation" Height="307.958" Width="459.947">
+        Title="NewPersonConfirmation" Height="307.958" Width="459.947"
+        Closing="Window_Closing"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

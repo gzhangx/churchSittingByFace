@@ -26,6 +26,7 @@ namespace WpfFaceApp
 
         private Action<String> onOk = null;
         private Action onCancel = null;
+        private bool okClicked = false;
         public void SetImage(BitmapImage img, Action<String> okAct, Action cancelAct)
         {
             imgPerson.Source = img;
@@ -35,6 +36,8 @@ namespace WpfFaceApp
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
+            if (okClicked) return;
+            okClicked = true;
             onOk(txtName.Text);
             this.Close();
         }
@@ -43,6 +46,11 @@ namespace WpfFaceApp
         {
             onCancel();
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!okClicked) onCancel();
         }
     }
 }
