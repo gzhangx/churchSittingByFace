@@ -6,13 +6,16 @@
              xmlns:local="clr-namespace:WpfFaceApp"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
-    <Grid x:Name="gridMain">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="gridMain">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="col1"/>
+                    <ColumnDefinition x:Name="col2"/>
+                    <ColumnDefinition x:Name="col3"/>
+                    <ColumnDefinition x:Name="col4"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

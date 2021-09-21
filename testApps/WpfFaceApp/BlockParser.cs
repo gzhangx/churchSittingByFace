@@ -13,11 +13,14 @@ namespace WpfFaceApp
         public int x { get; set; }
         public int y { get; set; }
         public char type { get; set; }
+        public String occupyedBy { get; set; }
+        public String occupyedById { get; set; }
     }
 
     public class BlockInfo
     {
         public int Section { get; set; }
+        public int MaxColumns { get; set; }
         public List<CellInfo[]> rows { get; set; }
     }
     public class BlockParser
@@ -34,8 +37,6 @@ namespace WpfFaceApp
             {
                 String content = sr.ReadToEnd();
                 var lines = content.Split('\n');
-                Console.WriteLine(lines);
-                int[] blkWidths = new int[4];
                 int curBlk = -1;
                 int curBlkSize = 0;
                 String curLine = lines[0];
@@ -46,7 +47,7 @@ namespace WpfFaceApp
                     {
                         if (curBlk >= 0)
                         {
-                            blkWidths[curBlk] = curBlkSize;
+                            blocks[curBlk].MaxColumns = curBlkSize;
                         }
                         curBlk++;
                         curBlkSize = 0;
@@ -78,17 +79,14 @@ namespace WpfFaceApp
                                 if (curBlk < blocks.Count)
                                 {
                                     var blk = blocks[curBlk];
-                                    if (blkWidths.Length > curBlk)
-                                    {
-                                        curCellLine = new CellInfo[blkWidths[curBlk]];
-                                        blk.rows.Add(curCellLine);
-                                        curCellId = 0;
-                                    }
-                                    else
-                                    {
-                                        curCellLine = null;
-                                    }
-                                }                                
+                                    curCellLine = new CellInfo[blk.MaxColumns];
+                                    blk.rows.Add(curCellLine);
+                                    curCellId = 0;
+                                }
+                                else
+                                {
+                                    curCellLine = null;
+                                }
                                 break;
                         }
                     }

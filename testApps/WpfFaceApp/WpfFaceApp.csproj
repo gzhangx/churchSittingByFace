@@ -85,6 +85,7 @@
       <DependentUpon>NewPersonConfirmation.xaml</DependentUpon>
     </Compile>
     <Compile Include="RecoInfo.cs" />
+    <Compile Include="RecoInfoWithSeat.cs" />
     <Compile Include="UserControlSeats.xaml.cs">
       <DependentUpon>UserControlSeats.xaml</DependentUpon>
     </Compile>

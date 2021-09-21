@@ -71,6 +71,7 @@ namespace WpfFaceApp
 
         List<RecoInfo> recoInfos = new List<RecoInfo>();
 
+        List<RecoInfoWithSeat> recoInfoWithSeats = new List<RecoInfoWithSeat>();
         void videoCaptureRun()
         {
             try
@@ -249,7 +250,26 @@ namespace WpfFaceApp
         {
             var pg = new WindowSeats();
             pg.Show();
-            pg.Init(blockParser);
+            RecoInfoWithSeat rsInfo = new RecoInfoWithSeat
+            {
+                recoInfo = new RecoInfo(),
+                cellInfo = null,
+            };
+            lock (recoInfos)
+            {
+                recoInfoWithSeats.Add(rsInfo);
+            }
+            pg.Init(blockParser, rsInfo, ci =>
+            {
+                rsInfo.cellInfo = ci;
+            }, ()=>
+            {
+                lock (recoInfos)
+                {
+                    recoInfos.Remove(rsInfo.recoInfo);
+                    recoInfoWithSeats.Remove(rsInfo);
+                }
+            });
         }
     }
 }

@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfFaceApp"
         mc:Ignorable="d"
-        Title="WindowSeats" Height="300" Width="300">
+        Title="WindowSeats" Height="300" Width="400">
     <Grid>
-        <local:UserControlSeats x:Name="userControlSeats"></local:UserControlSeats>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="panelShow" Grid.Row="0" Orientation="Horizontal">
+            <Image x:Name="imgPerson" Width="100" Height="100"></Image>
+            <StackPanel>
+                <TextBlock Height="20" TextAlignment="Center">Name</TextBlock>
+                <TextBox x:Name="txtName" Width="200" Height="20"></TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnOk" Height="20" Width="50" Margin="2">OK</Button>
+                    <Button x:Name="btnCancel" Height="20" Width="50" Margin="2">Cancel</Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <local:UserControlSeats x:Name="userControlSeats" Grid.Row="1"></local:UserControlSeats>
     </Grid>
 </Window>
