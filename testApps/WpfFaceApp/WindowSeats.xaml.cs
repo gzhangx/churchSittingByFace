@@ -23,21 +23,25 @@ namespace WpfFaceApp
         {
             InitializeComponent();
         }
-        public void Init(BlockParser parser, RecoInfoWithSeat rsInfo, Action<CellInfo> cellClicked, Action onCancel)
+        private bool ok = false;
+        public void Init(BlockParser parser, RecoInfoWithSeat rsInfo, Action cellClicked, Action onCancel)
         {
             userControlSeats.Init(parser);
-            userControlSeats.cellClicked = info=>
+            userControlSeats.cellClicked = cellInfo=>
             {
-                cellClicked?.Invoke(info);
-                Console.WriteLine("info." + info.x + "," + info.y);
-                info.occupyedBy = this.txtName.Text;
-                info.occupyedById = rsInfo.recoInfo.Id;
+                ok = true;                
+                cellInfo.occupyedBy = this.txtName.Text;
+                rsInfo.recoInfo.name = this.txtName.Text;
+                rsInfo.cellInfo = cellInfo;
+                cellInfo.occupyedById = rsInfo.recoInfo.Id;
+                cellClicked.Invoke();
+                Console.WriteLine("info." + cellInfo.x + "," + cellInfo.y);
                 this.Close();
             };
 
             this.Closing += (eve1, eve2) =>
               {
-                  onCancel();
+                  if (!ok)onCancel();
               };
             this.btnCancel.Click += (eve1, eve2) =>
               {

@@ -120,12 +120,44 @@ namespace WpfFaceApp
                                     rInfo.Id = r.descriptor.getHash();
                                     rInfo.name = rInfo.Id;
                                     rInfo.imageName = "tests\\" + rInfo.Id + ".png";
+                                    
+                                    RecoInfoWithSeat rsInfo = new RecoInfoWithSeat
+                                    {
+                                        recoInfo = rInfo,
+                                        cellInfo = null,
+                                        image = null,
+                                    };
+
                                     lock (recoInfos)
                                     {
                                         recoInfos.Add(rInfo);
+                                        recoInfoWithSeats.Add(rsInfo);
                                     }
                                     uiInvoke(() =>
                                     {
+                                        var bmp = CropImage(outBmp, r.rect);
+                                        {
+                                            rsInfo.image = Convert(bmp);
+
+                                            var pg = new WindowSeats();
+                                            pg.Show();
+                                            pg.Init(blockParser, rsInfo, () =>
+                                            {
+                                                using (bmp)
+                                                {
+                                                    SavePerson(rInfo, bmp);
+                                                }
+                                            }, () =>
+                                            {
+                                                lock (recoInfos)
+                                                {
+                                                    recoInfos.Remove(rsInfo.recoInfo);
+                                                    recoInfoWithSeats.Remove(rsInfo);
+                                                }
+                                                using (bmp) ;
+                                            });
+                                        }
+                                        /*
                                         var npw = new NewPersonConfirmation();
                                         var pimg = CropImage(outBmp, r.rect);
                                         npw.SetImage(Convert(pimg), (str) =>
@@ -141,7 +173,10 @@ namespace WpfFaceApp
                                             }
                                         });
                                         npw.Show();
-                                    });
+                                        */
+                                    });                                    
+
+
                                 } else
                                 {                                   
                                     var stringSize = g.MeasureString("measureString", objFont);
@@ -259,9 +294,8 @@ namespace WpfFaceApp
             {
                 recoInfoWithSeats.Add(rsInfo);
             }
-            pg.Init(blockParser, rsInfo, ci =>
+            pg.Init(blockParser, rsInfo, () =>
             {
-                rsInfo.cellInfo = ci;
             }, ()=>
             {
                 lock (recoInfos)
