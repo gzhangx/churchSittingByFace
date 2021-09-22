@@ -24,7 +24,7 @@ namespace WpfFaceApp
         public Action<CellInfo> cellClicked { get; set; }
         public int PerferedWidth = 0;
         public int PerferedHeight = 0;
-        public void Init(BlockParser parser)
+        public void Init(BlockParser parser, bool modify)
         {
             const int Button_Size = 20;
             const int Button_Bottom_Margin = 4;
@@ -77,7 +77,8 @@ namespace WpfFaceApp
                             }
                             if (cell.occupyedBy != null)
                             {
-                                b.IsEnabled = false;
+                                if (!modify)
+                                    b.IsEnabled = false;
                                 b.Background = Brushes.Red;
                             } else
                             {

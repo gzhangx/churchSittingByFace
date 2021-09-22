@@ -24,19 +24,31 @@ namespace WpfFaceApp
             InitializeComponent();
         }
         private bool ok = false;
-        public void Init(BlockParser parser, RecoInfoWithSeat rsInfo, Action cellClicked, Action onCancel)
+        public void Init(BlockParser parser, RecoInfo rsInfo, Action<CellInfo> cellClicked, Action onCancel, List<RecoInfo> recoInfos)
         {
-            userControlSeats.Init(parser);
+            bool modifyMode = rsInfo == null;
+            userControlSeats.Init(parser, modifyMode);
             userControlSeats.cellClicked = cellInfo=>
-            {
-                ok = true;                
-                cellInfo.occupyedBy = this.txtName.Text;
-                rsInfo.recoInfo.name = this.txtName.Text;
-                rsInfo.cellInfo = cellInfo;
-                cellInfo.occupyedById = rsInfo.recoInfo.Id;
-                cellClicked.Invoke();
-                Console.WriteLine("info." + cellInfo.x + "," + cellInfo.y);
-                this.Close();
+            {                
+                if (!modifyMode)
+                {
+                    ok = true;
+                    cellInfo.occupyedBy = this.txtName.Text;
+                    rsInfo.name = this.txtName.Text;
+                    cellInfo.occupyedById = rsInfo.Id;
+                    cellClicked.Invoke(cellInfo);
+
+                    Console.WriteLine("info." + cellInfo.x + "," + cellInfo.y);
+                    this.Close();
+                } else
+                {
+                    if (String.IsNullOrEmpty(cellInfo.occupyedById)) return;
+                    this.txtName.Text = cellInfo.occupyedBy;
+
+                    RecoInfo r = recoInfos.Find(rr => rr.Id == cellInfo.occupyedById);
+                    if (r != null)
+                        this.imgPerson.Source = Util.getImgSrc(r);
+                }
             };
 
             this.Closing += (eve1, eve2) =>
@@ -47,9 +59,13 @@ namespace WpfFaceApp
               {
                   onCancel();
               };
-            this.imgPerson.Source = rsInfo.image;
-            this.txtName.Text = rsInfo.recoInfo?.name == null?"": rsInfo.recoInfo?.name;         
 
+            if (rsInfo != null)
+            {
+                if (rsInfo.imageName != null) this.imgPerson.Source = Util.getImgSrc(rsInfo);
+                this.txtName.Text = rsInfo.name == null ? "" : rsInfo.name;
+
+            }
             this.Width = userControlSeats.PerferedWidth + 40;
             this.Height = userControlSeats.PerferedHeight + 40;
         }

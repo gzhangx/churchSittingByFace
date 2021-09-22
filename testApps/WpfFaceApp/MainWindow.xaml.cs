@@ -34,9 +34,10 @@ namespace WpfFaceApp
             System.Drawing.Text.InstalledFontCollection installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
             var fontFamilies = installedFontCollection.Families;
             objFont = new System.Drawing.Font(fontFamilies.Where(x => x.Name == "Arial").FirstOrDefault(), 20);
-            LoadPersons();
-
+            LoadPersons();            
             blockParser = new BlockParser();
+
+            LoadSeats();
         }
 
         bool videoCaptureThreadRunning = false;
@@ -71,7 +72,9 @@ namespace WpfFaceApp
 
         List<RecoInfo> recoInfos = new List<RecoInfo>();
 
-        List<RecoInfoWithSeat> recoInfoWithSeats = new List<RecoInfoWithSeat>();
+        List<CellInfo> seatsInfo = new List<CellInfo>();
+
+        List<String> currentDisplayIds = new List<string>();
         void videoCaptureRun()
         {
             try
@@ -113,71 +116,60 @@ namespace WpfFaceApp
                                         Console.WriteLine("found existing, diff " + diff + " " + found.name);
                                     }
                                 }
-                                if (found == null)
+                                if (found == null || 
+                                    (seatsInfo.Find(s=>s.occupyedById == found.Id) == null && currentDisplayIds.Find(x=>x == found.Id) == null))
                                 {
-                                    RecoInfo rInfo = new RecoInfo();
-                                    rInfo.faceDesc = r.descriptor;
-                                    rInfo.Id = r.descriptor.getHash();
-                                    rInfo.name = rInfo.Id;
-                                    rInfo.imageName = "tests\\" + rInfo.Id + ".png";
-                                    
-                                    RecoInfoWithSeat rsInfo = new RecoInfoWithSeat
+                                    RecoInfo rInfo = found;
+                                    String curId = null;
+                                    if (found == null)
                                     {
-                                        recoInfo = rInfo,
-                                        cellInfo = null,
-                                        image = null,
-                                    };
+                                        rInfo = new RecoInfo();
+                                        rInfo.faceDesc = r.descriptor;
+                                        rInfo.Id = r.descriptor.getHash();
+                                        rInfo.name = "";
 
-                                    lock (recoInfos)
+                                        using (var bmp = CropImage(outBmp, r.rect))
+                                        {
+                                            SavePerson(rInfo, bmp);
+                                        }
+
+                                        lock (recoInfos)
+                                        {
+                                            recoInfos.Add(rInfo);
+                                        }
+
+                                        curId = (rInfo.Id);
+                                    } else
                                     {
-                                        recoInfos.Add(rInfo);
-                                        recoInfoWithSeats.Add(rsInfo);
+                                        curId = (found.Id);
                                     }
+                                    currentDisplayIds.Add(curId);
                                     uiInvoke(() =>
                                     {
-                                        var bmp = CropImage(outBmp, r.rect);
+                                        var pg = new WindowSeats();
+                                        pg.Show();
+                                        pg.Init(blockParser, rInfo, cellInfo =>
                                         {
-                                            rsInfo.image = Convert(bmp);
-
-                                            var pg = new WindowSeats();
-                                            pg.Show();
-                                            pg.Init(blockParser, rsInfo, () =>
-                                            {
-                                                using (bmp)
-                                                {
-                                                    SavePerson(rInfo, bmp);
-                                                }
-                                            }, () =>
+                                            SavePerson(rInfo, null);
+                                            cellInfo.occupyedById = rInfo.Id;
+                                            cellInfo.occupyedBy = rInfo.name;
+                                            seatsInfo.Add(cellInfo);
+                                            currentDisplayIds.Remove(curId);
+                                            SaveSeats();
+                                        }, () =>
+                                        {
+                                            if (found == null)
                                             {
                                                 lock (recoInfos)
                                                 {
-                                                    recoInfos.Remove(rsInfo.recoInfo);
-                                                    recoInfoWithSeats.Remove(rsInfo);
+                                                    recoInfos.Remove(rInfo);
+                                                    currentDisplayIds.Remove(curId);
                                                 }
-                                                using (bmp) ;
-                                            });
-                                        }
-                                        /*
-                                        var npw = new NewPersonConfirmation();
-                                        var pimg = CropImage(outBmp, r.rect);
-                                        npw.SetImage(Convert(pimg), (str) =>
-                                        {
-                                            rInfo.name = str;
-                                            SavePerson(rInfo, pimg);
-                                        },
-                                        ()=>
-                                        {
-                                            lock (recoInfos)
-                                            {
-                                                recoInfos.Remove(rInfo);
                                             }
-                                        });
-                                        npw.Show();
-                                        */
+                                        }, recoInfos);
                                     });                                    
-
-
                                 } else
+                                
                                 {                                   
                                     var stringSize = g.MeasureString("measureString", objFont);
                                     g.FillRectangle(System.Drawing.Brushes.White, r.rect.l, r.rect.t, stringSize.Width, stringSize.Height);
@@ -193,7 +185,7 @@ namespace WpfFaceApp
                     loop++;                   
                     uiInvoke(() =>
                     {
-                        imgMain.Source = Convert(outBmp);
+                        imgMain.Source = Util.Convert(outBmp);
                         outBmp.Dispose();
                     });
                     Thread.Sleep(1);
@@ -221,7 +213,8 @@ namespace WpfFaceApp
             String content = sr.ReadToEnd();
             File.WriteAllText(System.IO.Path.Combine(saveDir, PERSONS_INFO_FILE), content);
 
-            img.Save(System.IO.Path.Combine(saveDir, "image.bmp"));
+            info.imageName = System.IO.Path.Combine(saveDir, "image.bmp");
+            if (img != null) img.Save(info.imageName);
         }
 
         void LoadPersons()
@@ -239,6 +232,48 @@ namespace WpfFaceApp
                 recoInfos.Add(info);
             }
         }
+
+        const String SEATS_DIR_NAME = @"seats";
+        String YYYYMMDD = DateTime.Now.ToString("yyyy-MM-dd");
+        const String SEATS_INFO_FILE = "seats.json";
+        void SaveSeats()
+        {            
+            string[] paths = { SEATS_DIR_NAME, YYYYMMDD };
+            string saveDir = System.IO.Path.Combine(paths);
+            Directory.CreateDirectory(saveDir);
+            MemoryStream msObj = new MemoryStream();
+            new DataContractJsonSerializer(typeof(List<CellInfo>)).WriteObject(msObj, seatsInfo);
+            msObj.Position = 0;
+            StreamReader sr = new StreamReader(msObj);
+            String content = sr.ReadToEnd();
+            File.WriteAllText(System.IO.Path.Combine(saveDir, SEATS_INFO_FILE), content);
+        }
+
+        void LoadSeats()
+        {
+            try
+            {
+                seatsInfo.Clear();
+                string[] paths = { SEATS_DIR_NAME, YYYYMMDD, SEATS_INFO_FILE };
+                string saveDir = System.IO.Path.Combine(paths);
+
+                string jsonStr = File.ReadAllText(saveDir);
+                var stream = new MemoryStream(UTF8Encoding.UTF8.GetBytes(jsonStr));
+                seatsInfo = (List<CellInfo>)new DataContractJsonSerializer(typeof(List<CellInfo>)).ReadObject(stream);
+
+                foreach (var seat in seatsInfo)
+                {
+                    var cell = blockParser.blocks[seat.block].rows[seat.y][seat.x];
+                    cell.occupyedById = seat.occupyedById;
+                    cell.occupyedBy = seat.occupyedBy;
+                }
+            } catch(Exception exc)
+            {
+                Console.WriteLine("Warning " + exc.Message);
+                Console.WriteLine(exc);
+            }
+        }
+
         public System.Drawing.Rectangle toRect(VedaFaceNative.DntRect r)
         {
             return new System.Drawing.Rectangle(r.l, r.t, r.r - r.l, r.b - r.t);
@@ -257,17 +292,7 @@ namespace WpfFaceApp
             }
         }
 
-        public BitmapImage Convert(Bitmap src)
-        {
-            MemoryStream ms = new MemoryStream();
-            src.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            ms.Seek(0, SeekOrigin.Begin);
-            image.StreamSource = ms;
-            image.EndInit();
-            return image;
-        }
+        
 
 
         void uiInvoke(Action act)
@@ -285,25 +310,7 @@ namespace WpfFaceApp
         {
             var pg = new WindowSeats();
             pg.Show();
-            RecoInfoWithSeat rsInfo = new RecoInfoWithSeat
-            {
-                recoInfo = new RecoInfo(),
-                cellInfo = null,
-            };
-            lock (recoInfos)
-            {
-                recoInfoWithSeats.Add(rsInfo);
-            }
-            pg.Init(blockParser, rsInfo, () =>
-            {
-            }, ()=>
-            {
-                lock (recoInfos)
-                {
-                    recoInfos.Remove(rsInfo.recoInfo);
-                    recoInfoWithSeats.Remove(rsInfo);
-                }
-            });
+            pg.Init(blockParser, null, null, ()=> { }, recoInfos);
         }
     }
 }

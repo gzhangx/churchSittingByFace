@@ -10,6 +10,7 @@ namespace WpfFaceApp
 {
     public class CellInfo
     {
+        public int block { get; set; }
         public int x { get; set; }
         public int y { get; set; }
         public char type { get; set; }
@@ -72,7 +73,8 @@ namespace WpfFaceApp
                             case 'X':
                             case 'N':
                             case ' ':
-                                curCellLine[curCellId++] = new CellInfo { x = curCellId, y = lineAt, type = c, };
+                                curCellLine[curCellId] = new CellInfo { block = curBlk, x = curCellId, y = lineAt - 1, type = c, };
+                                curCellId++;
                                 break;
                             default:
                                 curBlk++;
