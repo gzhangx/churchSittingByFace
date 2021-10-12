@@ -79,115 +79,11 @@ namespace WpfFaceApp
         {
             try
             {
-                int loop = 0;
                 var img = new VedaFacesDotNet.VedaFaces.FaceImage();
                 while (videoCaptureThread != null)
                 {
                     VedaFacesDotNet.VedaFaces.captureVideo(img);
-                    var recoRes = faceReco.ProcessImage(img);
-                    //var bmp = VedaFacesDotNet.VedaFaces.imgToBmp(img);
-                    VedaFacesDotNet.VedaFaces.debugCompDescs(recoRes);
-                    Console.WriteLine("done");
-                    var outBmp = img.toBitmap();
-                    if (recoRes.Count > 0)
-                    {
-                        Console.WriteLine("Got results " + recoRes.Count);
-                        using (Graphics g = Graphics.FromImage(outBmp))
-                        {
-                            foreach (var r in recoRes)
-                            {
-                                var ff = new FaceFeatures(r);
-                                var lines = ff.getAll();
-                                foreach (var line in lines)
-                                {
-                                    g.DrawLine(Pens.Aqua, new System.Drawing.Point(line.from.x, line.from.y), new System.Drawing.Point(line.to.x, line.to.y));
-                                }
-
-                                g.DrawRectangle(Pens.White, toRect(r.rect));
-
-                                RecoInfo found = null;
-                                var locked = recoInfos.ToArray();
-                                foreach (var existing in locked)
-                                {
-                                    double diff = existing.faceDesc.diff(r.descriptor);
-                                    if (diff < 0.6)
-                                    {
-                                        found = existing;
-                                        Console.WriteLine("found existing, diff " + diff + " " + found.name);
-                                    }
-                                }
-                                if (found == null || 
-                                    (seatsInfo.Find(s=>s.occupyedById == found.Id) == null && currentDisplayIds.Find(x=>x == found.Id) == null))
-                                {
-                                    RecoInfo rInfo = found;
-                                    String curId = null;
-                                    if (found == null)
-                                    {
-                                        rInfo = new RecoInfo();
-                                        rInfo.faceDesc = r.descriptor;
-                                        rInfo.Id = r.descriptor.getHash();
-                                        rInfo.name = "";
-
-                                        using (var bmp = CropImage(outBmp, r.rect))
-                                        {
-                                            SavePerson(rInfo, bmp);
-                                        }
-
-                                        lock (recoInfos)
-                                        {
-                                            recoInfos.Add(rInfo);
-                                        }
-
-                                        curId = (rInfo.Id);
-                                    } else
-                                    {
-                                        curId = (found.Id);
-                                    }
-                                    currentDisplayIds.Add(curId);
-                                    uiInvoke(() =>
-                                    {
-                                        var pg = new WindowSeats();
-                                        pg.Show();
-                                        pg.Init(blockParser, rInfo, cellInfo =>
-                                        {
-                                            SavePerson(rInfo, null);
-                                            cellInfo.occupyedById = rInfo.Id;
-                                            cellInfo.occupyedBy = rInfo.name;
-                                            seatsInfo.Add(cellInfo);
-                                            currentDisplayIds.Remove(curId);
-                                            SaveSeats();
-                                        }, () =>
-                                        {
-                                            if (found == null)
-                                            {
-                                                lock (recoInfos)
-                                                {
-                                                    recoInfos.Remove(rInfo);
-                                                    currentDisplayIds.Remove(curId);
-                                                }
-                                            }
-                                        }, recoInfos);
-                                    });                                    
-                                } else
-                                
-                                {                                   
-                                    var stringSize = g.MeasureString("measureString", objFont);
-                                    g.FillRectangle(System.Drawing.Brushes.White, r.rect.l, r.rect.t, stringSize.Width, stringSize.Height);
-                                    g.DrawString(found.name, objFont, System.Drawing.Brushes.Black, new PointF(r.rect.l, r.rect.t));
-                                }
-                            }
-                        }
-                        //VedaFacesDotNet.VedaFaceNative.deleteBgrImg(img);
-                        //var outImg = VedaFacesDotNet.VedaFaces.bmpToImg(outBmp);
-                        //outImg.savePng("tests\\test" + loop + ".png");                        
-                        Console.WriteLine("Number guys " + recoInfos.Count);
-                    }
-                    loop++;                   
-                    uiInvoke(() =>
-                    {
-                        imgMain.Source = Util.Convert(outBmp);
-                        outBmp.Dispose();
-                    });
+                    doOneImage(img);
                     Thread.Sleep(1);
                 }
             }
@@ -196,6 +92,115 @@ namespace WpfFaceApp
                 videoCaptureThreadRunning = false;
                 VedaFacesDotNet.VedaFaces.stopVideoCapture();
             }
+        }
+
+
+        void doOneImage(VedaFaces.FaceImage img)
+        {
+            var recoRes = faceReco.ProcessImage(img);
+            VedaFaces.debugCompDescs(recoRes);
+            Console.WriteLine("done");
+            var outBmp = img.toBitmap();
+            if (recoRes.Count > 0)
+            {
+                Console.WriteLine("Got results " + recoRes.Count);
+                using (Graphics g = Graphics.FromImage(outBmp))
+                {
+                    foreach (var r in recoRes)
+                    {
+                        var ff = new FaceFeatures(r);
+                        var lines = ff.getAll();
+                        foreach (var line in lines)
+                        {
+                            g.DrawLine(Pens.Aqua, new System.Drawing.Point(line.from.x, line.from.y), new System.Drawing.Point(line.to.x, line.to.y));
+                        }
+
+                        g.DrawRectangle(Pens.White, toRect(r.rect));
+
+                        RecoInfo found = null;
+                        var locked = recoInfos.ToArray();
+                        foreach (var existing in locked)
+                        {
+                            double diff = existing.faceDesc.diff(r.descriptor);
+                            if (diff < 0.6)
+                            {
+                                found = existing;
+                                Console.WriteLine("found existing, diff " + diff + " " + found.name);
+                            }
+                        }
+                        if (found == null ||
+                            (seatsInfo.Find(s => s.occupyedById == found.Id) == null && currentDisplayIds.Find(x => x == found.Id) == null))
+                        {
+                            RecoInfo rInfo = found;
+                            String curId = null;
+                            if (found == null)
+                            {
+                                rInfo = new RecoInfo();
+                                rInfo.faceDesc = r.descriptor;
+                                rInfo.Id = r.descriptor.getHash();
+                                rInfo.name = "";
+
+                                using (var bmp = CropImage(outBmp, r.rect))
+                                {
+                                    SavePerson(rInfo, bmp);
+                                }
+
+                                lock (recoInfos)
+                                {
+                                    recoInfos.Add(rInfo);
+                                }
+
+                                curId = (rInfo.Id);
+                            }
+                            else
+                            {
+                                curId = (found.Id);
+                            }
+                            currentDisplayIds.Add(curId);
+                            uiInvoke(() =>
+                            {
+                                var pg = new WindowSeats();
+                                pg.Show();
+                                pg.Init(blockParser, rInfo, cellInfo =>
+                                {
+                                    SavePerson(rInfo, null);
+                                    cellInfo.occupyedById = rInfo.Id;
+                                    cellInfo.occupyedBy = rInfo.name;
+                                    seatsInfo.Add(cellInfo);
+                                    currentDisplayIds.Remove(curId);
+                                    SaveSeats();
+                                }, () =>
+                                {
+                                    if (found == null)
+                                    {
+                                        lock (recoInfos)
+                                        {
+                                            recoInfos.Remove(rInfo);
+                                            currentDisplayIds.Remove(curId);
+                                        }
+                                    }
+                                }, recoInfos);
+                            });
+                        }
+                        else
+
+                        {
+                            var stringSize = g.MeasureString("measureString", objFont);
+                            g.FillRectangle(System.Drawing.Brushes.White, r.rect.l, r.rect.t, stringSize.Width, stringSize.Height);
+                            g.DrawString(found.name, objFont, System.Drawing.Brushes.Black, new PointF(r.rect.l, r.rect.t));
+                        }
+                    }
+                }
+                //VedaFacesDotNet.VedaFaceNative.deleteBgrImg(img);
+                //var outImg = VedaFacesDotNet.VedaFaces.bmpToImg(outBmp);
+                //outImg.savePng("tests\\test" + loop + ".png");                        
+                Console.WriteLine("Number guys " + recoInfos.Count);
+            }
+            uiInvoke(() =>
+            {
+                imgMain.Source = Util.Convert(outBmp);
+                outBmp.Dispose();
+            });            
         }
 
 
