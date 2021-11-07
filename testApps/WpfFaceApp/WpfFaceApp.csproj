@@ -81,9 +81,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BlockParser.cs" />
+    <Compile Include="core\IdComps.cs" />
     <Compile Include="NewPersonConfirmation.xaml.cs">
       <DependentUpon>NewPersonConfirmation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="core\RecoEngine.cs" />
     <Compile Include="RecoInfo.cs" />
     <Compile Include="UserControlSeats.xaml.cs">
       <DependentUpon>UserControlSeats.xaml</DependentUpon>
